@@ -9,9 +9,9 @@
  *   results: Array<Post>,
  *   query: string
  * }
+ * 
+ * NOTA: Usa chiamate REST dirette all'API v1 per accedere a gemini-1.5-flash
  */
-
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 exports.handler = async (event, context) => {
     // Gestisci CORS preflight
@@ -92,19 +92,6 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Inizializza Gemini con API v1 (stabile)
-        // Usa gemini-1.5-flash (disponibile in v1)
-        const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ 
-            model: "gemini-1.5-flash",
-            generationConfig: {
-                temperature: 0.7,
-                topP: 0.95,
-                topK: 40,
-                maxOutputTokens: 2048,
-            }
-        });
-
         // Limita a max 5 articoli per non superare token limit
         const articlesToSummarize = results.slice(0, 5);
 
@@ -150,12 +137,44 @@ Inizia con un'introduzione coinvolgente che contestualizzi la ricerca dell'utent
         // Log per debugging (visibile in Netlify logs)
         console.log(`Generating AI summary for query: "${query}" with ${articlesToSummarize.length} articles`);
 
-        // Chiama Gemini API
+        // Chiama direttamente l'API REST v1 di Gemini (per usare gemini-1.5-flash)
+        const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+        
+        const requestBody = {
+            contents: [{
+                parts: [{
+                    text: prompt
+                }]
+            }],
+            generationConfig: {
+                temperature: 0.7,
+                topP: 0.95,
+                topK: 40,
+                maxOutputTokens: 2048,
+            }
+        };
+
         const startTime = Date.now();
-        const result = await model.generateContent(prompt);
+        
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.text();
+            console.error('Gemini API error:', response.status, errorData);
+            throw new Error(`Gemini API error: ${response.status} - ${errorData}`);
+        }
+
+        const data = await response.json();
         const endTime = Date.now();
         
-        const summary = result.response.text();
+        // Estrai il testo dalla risposta
+        const summary = data.candidates[0].content.parts[0].text;
 
         // Log performance
         console.log(`AI summary generated in ${endTime - startTime}ms`);

@@ -92,10 +92,11 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Inizializza Gemini
+        // Inizializza Gemini con API v1 (stabile)
+        // Usa gemini-1.5-flash (disponibile in v1)
         const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({ 
-            model: "gemini-1.5-flash-8b",
+            model: "gemini-1.5-flash",
             generationConfig: {
                 temperature: 0.7,
                 topP: 0.95,

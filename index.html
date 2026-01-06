@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiedi all'Umanesimo Digitale</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="main-title">Chiedi all'Umanesimo Digitale</h1>
+            <p class="subtitle">Esplora 1000+ articoli su AI, tecnologia e futuro digitale</p>
+            <p style="margin-top: 20px; opacity: 0.9;">
+                <a href="guida.html" style="color: white; text-decoration: none; font-size: 0.95rem; border: 1px solid rgba(255,255,255,0.3); padding: 8px 20px; border-radius: 25px; display: inline-block; transition: all 0.3s ease;">
+                    <i class="fas fa-question-circle"></i> Come funziona?
+                </a>
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Search Section -->
+            <section class="search-section" id="searchSection">
+                <div class="search-box">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            class="search-input" 
+                            placeholder="Cerca un argomento... (es: intelligenza artificiale, etica, umanesimo)"
+                            autocomplete="off"
+                        >
+                        <button id="searchBtn" class="search-btn">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+
+                <!-- Loading indicator -->
+                <div class="loading" id="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Ricerca in corso...</p>
+                </div>
+
+                <!-- API Status -->
+                <div class="api-status" id="apiStatus"></div>
+
+                <!-- Results counter -->
+                <div class="results-info" id="resultsInfo" style="display: none;"></div>
+
+                <!-- Search Results -->
+                <div class="search-results" id="searchResults"></div>
+
+                <!-- Summary Article -->
+                <div class="summary-article" id="summaryArticle" style="display: none;">
+                    <h2 class="summary-title">
+                        <i class="fas fa-file-alt"></i> Articolo Riassuntivo
+                    </h2>
+                    <div class="summary-content" id="summaryContent"></div>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section class="quiz-section" id="quizSection" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-graduation-cap"></i> Quiz Interattivo
+                    </h2>
+                    <p class="section-description">Metti alla prova la tua conoscenza sull'argomento ricercato</p>
+                </div>
+
+                <div class="quiz-container" id="quizContainer">
+                    <!-- Quiz will be generated dynamically -->
+                </div>
+
+                <div class="quiz-score" id="quizScore" style="display: none;"></div>
+            </section>
+
+            <!-- Tabs Navigation -->
+            <div class="tabs-nav" id="tabsNav" style="display: none;">
+                <button class="tab-btn active" data-tab="search">
+                    <i class="fas fa-search"></i> Ricerca
+                </button>
+                <button class="tab-btn" data-tab="quiz">
+                    <i class="fas fa-graduation-cap"></i> Quiz
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>
+                <strong>Umanesimo Digitale</strong> - Motore di ricerca intelligente<br>
+                <a href="https://umanesimodigitale.info" target="_blank" rel="noopener">
+                    <i class="fas fa-external-link-alt"></i> Visita il blog
+                </a>
+            </p>
+            <p class="footer-credits">
+                Design e sviluppo con <i class="fas fa-heart"></i> per la democratizzazione del sapere
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+# Dependency lock file - managed by npm
+# Run 'npm install' to generate package-lock.json
+
+# Node modules
+node_modules/
+
+# Netlify
+.netlify/
+
+# Environment variables (NEVER commit API keys!)
+.env
+.env.local
+.env.development
+.env.production
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage/
+
+# Build artifacts (if any)
+dist/
+build/

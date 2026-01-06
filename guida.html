@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guida - Chiedi all'Umanesimo Digitale</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        .guide-section {
+            background: white;
+            padding: 40px;
+            margin: 40px auto;
+            max-width: 900px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .guide-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .guide-section h3 {
+            color: var(--secondary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 15px;
+            margin: 10px 0;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            display: flex;
+            align-items: start;
+            gap: 15px;
+        }
+        .feature-list i {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-top: 3px;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--secondary-color), #2980B9);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            margin-top: 20px;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+        }
+        .screenshot {
+            width: 100%;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        code {
+            background: var(--bg-secondary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--accent-color);
+        }
+        .step {
+            counter-increment: step;
+            position: relative;
+            padding-left: 50px;
+            margin: 30px 0;
+        }
+        .step:before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 35px;
+            height: 35px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .steps-container {
+            counter-reset: step;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="main-title">Guida Completa</h1>
+            <p class="subtitle">Scopri come utilizzare il motore di ricerca dell'Umanesimo Digitale</p>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Intro -->
+            <section class="guide-section">
+                <h2><i class="fas fa-rocket"></i> Benvenuto!</h2>
+                <p style="font-size: 1.1rem; line-height: 1.8;">
+                    <strong>Chiedi all'Umanesimo Digitale</strong> è un motore di ricerca intelligente 
+                    che ti permette di esplorare oltre 1000 articoli su intelligenza artificiale, 
+                    etica digitale, educazione e tecnologia del blog 
+                    <a href="https://umanesimodigitale.info" target="_blank">umanesimodigitale.info</a>.
+                </p>
+                <a href="index.html" class="cta-button">
+                    <i class="fas fa-search"></i> Inizia a Cercare
+                </a>
+            </section>
+
+            <!-- Features -->
+            <section class="guide-section">
+                <h2><i class="fas fa-star"></i> Funzionalità Principali</h2>
+                <ul class="feature-list">
+                    <li>
+                        <i class="fas fa-search"></i>
+                        <div>
+                            <strong>Ricerca Semantica Avanzata</strong><br>
+                            Trova articoli rilevanti usando il linguaggio naturale. 
+                            L'algoritmo analizza titoli, contenuti e categorie per trovare 
+                            i risultati più pertinenti.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-lightbulb"></i>
+                        <div>
+                            <strong>Suggerimenti Intelligenti</strong><br>
+                            Mentre digiti, l'app suggerisce termini e argomenti correlati 
+                            per aiutarti a trovare quello che cerchi.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-images"></i>
+                        <div>
+                            <strong>Risultati Visuali</strong><br>
+                            Ogni risultato include un'immagine, titolo, abstract e metadati 
+                            (data, autore, categorie) per una panoramica completa.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-file-alt"></i>
+                        <div>
+                            <strong>Articolo Riassuntivo</strong><br>
+                            Per ogni ricerca viene generato automaticamente un riassunto 
+                            che estrae i punti chiave e le tematiche principali.
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-graduation-cap"></i>
+                        <div>
+                            <strong>Quiz Interattivi</strong><br>
+                            Testa la tua comprensione con quiz generati dinamicamente 
+                            basati sull'argomento che hai cercato.
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- How to Use -->
+            <section class="guide-section">
+                <h2><i class="fas fa-question-circle"></i> Come Utilizzare</h2>
+                
+                <div class="steps-container">
+                    <div class="step">
+                        <h3>Effettua una Ricerca</h3>
+                        <p>
+                            Digita un argomento nella barra di ricerca (es: "intelligenza artificiale", 
+                            "etica digitale", "educazione"). Puoi cercare singole parole o frasi complete.
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <h3>Esplora i Risultati</h3>
+                        <p>
+                            Scorri i risultati visualizzati come card eleganti. Ogni card mostra:
+                        </p>
+                        <ul style="margin-top: 10px;">
+                            <li>Immagine in evidenza</li>
+                            <li>Titolo dell'articolo (cliccabile per aprire l'articolo completo)</li>
+                            <li>Data di pubblicazione e autore</li>
+                            <li>Categorie associate</li>
+                            <li>Abstract riassuntivo</li>
+                        </ul>
+                    </div>
+
+                    <div class="step">
+                        <h3>Leggi l'Articolo Riassuntivo</h3>
+                        <p>
+                            Sotto i risultati troverai un articolo riassuntivo generato automaticamente 
+                            che include:
+                        </p>
+                        <ul style="margin-top: 10px;">
+                            <li>Tematiche principali trovate</li>
+                            <li>Punti chiave estratti da ogni articolo</li>
+                            <li>Suggerimenti per approfondire l'argomento</li>
+                        </ul>
+                    </div>
+
+                    <div class="step">
+                        <h3>Fai il Quiz</h3>
+                        <p>
+                            Clicca sulla tab "Quiz" per testare la tua comprensione. 
+                            Il quiz contiene 5 domande generate in base all'argomento cercato. 
+                            Ogni risposta include un feedback educativo immediato.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tips -->
+            <section class="guide-section">
+                <h2><i class="fas fa-magic"></i> Suggerimenti per Ricerche Efficaci</h2>
+                
+                <h3>✅ Fai così:</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Usa termini specifici: "machine learning etico" invece di solo "AI"</li>
+                    <li>Combina concetti: "educazione intelligenza artificiale"</li>
+                    <li>Cerca tematiche: "democratizzazione sapere", "umanesimo digitale"</li>
+                    <li>Usa i suggerimenti automatici mentre digiti</li>
+                </ul>
+
+                <h3 style="margin-top: 30px;">❌ Evita:</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Termini troppo generici come "tecnologia" (troppi risultati)</li>
+                    <li>Termini troppo specifici non presenti nel blog</li>
+                    <li>Errori di ortografia (l'algoritmo è sensibile)</li>
+                </ul>
+            </section>
+
+            <!-- Technical Info -->
+            <section class="guide-section">
+                <h2><i class="fas fa-cog"></i> Informazioni Tecniche</h2>
+                
+                <h3>Come Funziona</h3>
+                <p style="line-height: 1.8;">
+                    L'applicazione si connette all'API REST di WordPress del blog 
+                    <code>umanesimodigitale.info</code> per caricare automaticamente 
+                    tutti gli articoli. Se l'API non è accessibile (es: problemi CORS), 
+                    l'app usa automaticamente dei dati di esempio per mostrarti come funziona.
+                </p>
+
+                <h3>Privacy e Dati</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>✅ Nessun dato personale viene raccolto</li>
+                    <li>✅ Nessun cookie o tracking</li>
+                    <li>✅ Tutto funziona nel tuo browser</li>
+                    <li>✅ Open source e trasparente</li>
+                </ul>
+
+                <h3>Compatibilità</h3>
+                <p style="line-height: 1.8;">
+                    L'applicazione funziona su tutti i browser moderni:
+                </p>
+                <ul style="margin-left: 20px;">
+                    <li>Chrome / Edge (versione 90+)</li>
+                    <li>Firefox (versione 88+)</li>
+                    <li>Safari (versione 14+)</li>
+                    <li>Mobile (iOS Safari, Chrome Mobile)</li>
+                </ul>
+            </section>
+
+            <!-- FAQ -->
+            <section class="guide-section">
+                <h2><i class="fas fa-question"></i> Domande Frequenti</h2>
+                
+                <h3>Posso usare questo motore per altri blog?</h3>
+                <p>
+                    Sì! Puoi configurare l'URL dell'API nel file <code>js/config.js</code> 
+                    per puntare a qualsiasi blog WordPress con API REST abilitata.
+                </p>
+
+                <h3>Perché vedo "Modalità Demo"?</h3>
+                <p>
+                    Questo significa che l'app non è riuscita a connettersi all'API WordPress, 
+                    probabilmente per problemi di CORS. L'app funziona comunque con dati di esempio 
+                    per mostrarti tutte le funzionalità.
+                </p>
+
+                <h3>I quiz sono sempre uguali?</h3>
+                <p>
+                    No! I quiz vengono generati dinamicamente in base all'argomento che hai cercato. 
+                    Cerca argomenti diversi per quiz diversi.
+                </p>
+
+                <h3>Posso condividere i risultati?</h3>
+                <p>
+                    Puoi copiare l'URL della pagina e condividerlo. Tuttavia, i risultati di ricerca 
+                    non sono salvati nell'URL (feature in sviluppo futuro).
+                </p>
+            </section>
+
+            <!-- CTA Final -->
+            <section class="guide-section" style="text-align: center;">
+                <h2><i class="fas fa-rocket"></i> Pronto per Iniziare?</h2>
+                <p style="font-size: 1.1rem; margin-bottom: 30px;">
+                    Esplora oltre 1000 articoli sull'intelligenza artificiale, 
+                    l'etica digitale e il futuro della tecnologia.
+                </p>
+                <a href="index.html" class="cta-button" style="font-size: 1.2rem;">
+                    <i class="fas fa-search"></i> Vai al Motore di Ricerca
+                </a>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>
+                <strong>Umanesimo Digitale</strong> - Motore di ricerca intelligente<br>
+                <a href="https://umanesimodigitale.info" target="_blank" rel="noopener">
+                    <i class="fas fa-external-link-alt"></i> Visita il blog
+                </a>
+                |
+                <a href="index.html">
+                    <i class="fas fa-search"></i> Ricerca
+                </a>
+            </p>
+            <p class="footer-credits">
+                Design e sviluppo con <i class="fas fa-heart"></i> per la democratizzazione del sapere
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

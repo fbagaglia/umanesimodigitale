@@ -1,0 +1,38 @@
+{
+  "name": "chiedi-umanesimo-digitale",
+  "version": "1.1.0",
+  "description": "Motore di ricerca intelligente per il blog UmanesimoDigitale.info con AI-powered summaries",
+  "main": "index.html",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'Static site - no build needed'",
+    "deploy": "netlify deploy --prod"
+  },
+  "keywords": [
+    "intelligenza-artificiale",
+    "umanesimo-digitale",
+    "blog",
+    "search-engine",
+    "gemini-ai",
+    "netlify-functions"
+  ],
+  "author": "Franco Bagaglia",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tuousername/chiedi-umanesimo-digitale"
+  },
+  "bugs": {
+    "url": "https://github.com/tuousername/chiedi-umanesimo-digitale/issues"
+  },
+  "homepage": "https://umanesimodigitale.info"
+}

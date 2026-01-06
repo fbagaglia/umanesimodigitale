@@ -1,0 +1,64 @@
+# Netlify Configuration
+# Documentazione: https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  # Directory delle functions
+  functions = "netlify/functions"
+  
+  # Directory di pubblicazione (root del sito)
+  publish = "."
+  
+  # Comando di build (non necessario per sito statico)
+  command = "echo 'Static site - no build needed'"
+
+# Configurazione Functions
+[functions]
+  # Directory delle functions
+  directory = "netlify/functions"
+  
+  # Node version
+  node_bundler = "esbuild"
+
+# Headers per sicurezza e performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cache per assets statici
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# CORS per le functions
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+
+# Redirects (se necessari in futuro)
+# [[redirects]]
+#   from = "/old-path"
+#   to = "/new-path"
+#   status = 301
+
+# Configurazione ambiente di sviluppo locale
+[dev]
+  command = "echo 'Development server running'"
+  port = 8888
+  targetPort = 8888
+  framework = "#static"
+  
+# Environment variables (da configurare nel Netlify Dashboard)
+# GEMINI_API_KEY = "your-api-key-here" (NON mettere qui, usa il dashboard!)

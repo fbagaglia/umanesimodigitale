@@ -419,7 +419,7 @@ class SearchEngine {
             
             for (let attempt = 1; attempt <= maxRetries; attempt++) {
                 try {
-                    const response = await fetch('/.netlify/functions/summarize', {
+                    const response = await fetch('/api/summarize', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

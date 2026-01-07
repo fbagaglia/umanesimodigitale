@@ -14,24 +14,21 @@ class DataManager {
     }
 
     /**
-     * Inizializza e carica i dati
+     * Inizializza e carica i dati con caricamento progressivo
      */
     async initialize() {
-        this.showStatus('Caricamento dati in corso...', 'info');
+        this.showStatus('🔄 Connessione al blog in corso...', 'info');
         
         try {
-            // Prima prova a caricare dall'API WordPress
+            // Prima prova a caricare dall'API WordPress (caricamento progressivo)
             await this.loadFromWordPress();
-            this.showStatus(
-                `✅ Connesso al blog! ${this.posts.length} articoli caricati dall'API WordPress`, 
-                'success'
-            );
+            // NON sovrascriviamo il messaggio - loadFromWordPress gestisce già lo status
         } catch (error) {
             console.warn('Impossibile caricare dall\'API WordPress:', error);
             // Fallback su dati di esempio
             this.loadSampleData();
             this.showStatus(
-                '⚠️ Modalità Demo: Usando dati di esempio. Per caricare i tuoi articoli, verifica le impostazioni CORS dell\'API WordPress', 
+                '⚠️ Modalità Demo: Usando 8 articoli di esempio. Per caricare tutti i tuoi articoli, verifica le impostazioni CORS dell\'API WordPress', 
                 'warning'
             );
         }
@@ -41,49 +38,93 @@ class DataManager {
     }
 
     /**
-     * Carica dati dall'API WordPress
+     * Carica dati dall'API WordPress con caricamento progressivo
      */
     async loadFromWordPress() {
         const maxPosts = 100; // WordPress API limit per pagina
         let allPosts = [];
         let page = 1;
+        const maxPages = 10; // Max 1000 post (10 pagine * 100)
+        
+        // FASE 1: Carica prima pagina IMMEDIATAMENTE (3-5 secondi)
+        try {
+            const firstPageUrl = `${this.apiEndpoint}?per_page=${maxPosts}&page=1&_embed`;
+            const firstResponse = await fetch(firstPageUrl);
+            
+            if (!firstResponse.ok) {
+                throw new Error(`HTTP error! status: ${firstResponse.status}`);
+            }
+            
+            const firstPagePosts = await firstResponse.json();
+            allPosts = this.processWordPressPosts(firstPagePosts);
+            this.posts = allPosts; // Aggiorna subito con la prima pagina
+            
+            // Mostra interfaccia SUBITO con i primi 100 post
+            this.showStatus(
+                `✅ Connesso! ${allPosts.length} articoli caricati (caricamento in background...)`, 
+                'success'
+            );
+            
+            // FASE 2: Carica resto in BACKGROUND (non blocca l'interfaccia)
+            if (firstPagePosts.length === maxPosts) {
+                // Ci sono altre pagine, caricale in background
+                this.loadRemainingPostsInBackground(maxPosts, maxPages);
+            }
+            
+        } catch (error) {
+            throw error; // Propaghiamo l'errore al chiamante
+        }
+    }
+    
+    /**
+     * Carica il resto dei post in background senza bloccare l'UI
+     */
+    async loadRemainingPostsInBackground(maxPosts, maxPages) {
+        let page = 2; // Iniziamo dalla seconda pagina
         let hasMore = true;
-
-        // Carica i post in blocchi (per gestire più di 100 post)
-        while (hasMore && page <= 10) { // Max 1000 post (10 pagine * 100)
-            const url = `${this.apiEndpoint}?per_page=${maxPosts}&page=${page}&_embed`;
-            
-            const response = await fetch(url);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const posts = await response.json();
-            
-            if (posts.length === 0) {
-                hasMore = false;
-            } else {
-                allPosts = allPosts.concat(this.processWordPressPosts(posts));
-                page++;
+        
+        while (hasMore && page <= maxPages) {
+            try {
+                const url = `${this.apiEndpoint}?per_page=${maxPosts}&page=${page}&_embed`;
+                const response = await fetch(url);
                 
-                // Se abbiamo ricevuto meno post del limite, non ci sono altre pagine
-                if (posts.length < maxPosts) {
+                if (!response.ok) {
+                    console.warn(`Errore caricamento pagina ${page}:`, response.status);
                     hasMore = false;
+                    continue;
                 }
-            }
-            
-            // Mostra progresso
-            if (hasMore) {
-                this.showStatus(
-                    `Caricamento in corso... ${allPosts.length} articoli caricati`, 
-                    'info'
-                );
+                
+                const posts = await response.json();
+                
+                if (posts.length === 0) {
+                    hasMore = false;
+                } else {
+                    const processedPosts = this.processWordPressPosts(posts);
+                    this.posts = this.posts.concat(processedPosts);
+                    
+                    // Aggiorna il contatore in tempo reale
+                    this.showStatus(
+                        `✅ Connesso! ${this.posts.length} articoli disponibili`, 
+                        'success'
+                    );
+                    
+                    page++;
+                    
+                    // Se abbiamo ricevuto meno post del limite, non ci sono altre pagine
+                    if (posts.length < maxPosts) {
+                        hasMore = false;
+                    }
+                    
+                    // Piccolo delay per non sovraccaricare il server (200ms)
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                }
+            } catch (error) {
+                console.warn(`Errore caricamento pagina ${page}:`, error);
+                hasMore = false;
             }
         }
-
-        this.posts = allPosts;
-        this.useWordPressAPI = true;
+        
+        console.log(`✅ Caricamento completato: ${this.posts.length} articoli totali`);
     }
 
     /**

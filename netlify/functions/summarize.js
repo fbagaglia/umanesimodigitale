@@ -95,44 +95,82 @@ exports.handler = async (event, context) => {
         // Limita a max 5 articoli per non superare token limit
         const articlesToSummarize = results.slice(0, 5);
 
-        // Crea prompt strutturato
+        // Crea prompt strutturato per articolo completo e approfondito
         const prompt = `Sei Franco Bagaglia, docente universitario in Intelligenza Artificiale e umanista digitale. La tua missione è formare menti libere, curiose e capaci di abitare con responsabilità il mondo digitale.
 
 Un utente ha cercato sul tuo blog il termine: "${query}"
 
-Sono stati trovati questi articoli rilevanti:
+Sono stati trovati questi articoli rilevanti dal blog UmanesimoDigitale.info:
 
 ${articlesToSummarize.map((article, index) => `
-=== ARTICOLO ${index + 1} ===
-Titolo: ${article.title}
+=== ARTICOLO ${index + 1}: "${article.title}" ===
+Data: ${article.date}
+URL: ${article.url}
 Categorie: ${article.categories.join(', ')}
-Contenuto: ${article.excerpt}
-${article.content ? 'Testo completo (estratto): ' + article.content.substring(0, 500) + '...' : ''}
+Estratto: ${article.excerpt}
+${article.content ? 'Contenuto completo (estratto): ' + article.content.substring(0, 800) + '...' : ''}
 `).join('\n')}
 
 ---
 
 COMPITO:
-Crea un articolo riassuntivo che incarni i valori dell'Umanesimo Digitale. L'articolo deve:
+Scrivi un articolo COMPLETO e APPROFONDITO (minimo 800 parole) che sintetizzi questi contenuti secondo i valori dell'Umanesimo Digitale.
 
-1. **Sintetizzare le tematiche principali** trovate negli articoli
-2. **Estrarre collegamenti concettuali** tra i diversi contenuti
-3. **Usare un tono critico, umanistico e accessibile** (come il tuo stile)
-4. **Evidenziare l'importanza etica** degli argomenti trattati
-5. **Suggerire percorsi di approfondimento** concreti
-6. **Stimolare il pensiero critico** del lettore
+L'articolo DEVE:
 
-FORMATO:
-Rispondi SOLO con HTML ben formattato, usando questi tag:
-- <h3> per i titoli di sezione
-- <p> per i paragrafi
-- <ul> e <li> per le liste
-- <strong> per enfasi
-- <em> per citazioni o termini importanti
+1. **INTRODUZIONE CONTESTUALE** (2-3 paragrafi)
+   - Contestualizza la ricerca dell'utente nel panorama dell'Umanesimo Digitale
+   - Spiega perché questo tema è rilevante oggi
+   - Anticipa i temi chiave che saranno trattati
 
-NON includere tag <html>, <body> o <head>. Solo il contenuto interno.
+2. **COLLEGAMENTI CROSS-ARTICOLI** (fondamentale!)
+   - Evidenzia i collegamenti concettuali tra i diversi articoli
+   - Cita titoli specifici e date degli articoli
+   - Mostra come le idee si sviluppano attraverso i diversi testi
+   - Esempio: "Come evidenziato nell'articolo '[TITOLO]' del [DATA]..."
 
-Inizia con un'introduzione coinvolgente che contestualizzi la ricerca dell'utente.`;
+3. **ANALISI CRITICA APPROFONDITA** (4-5 paragrafi)
+   - Analizza le tematiche principali emerse
+   - Usa il tuo tono critico, umanistico e accessibile
+   - Evidenzia l'importanza etica degli argomenti
+   - Collega teoria e pratica, AI e umanesimo
+
+4. **TEMI CHIAVE E CONNESSIONI** (sezione strutturata)
+   - Identifica 3-5 temi chiave emersi
+   - Per ogni tema, mostra i collegamenti tra articoli diversi
+   - Usa citazioni e riferimenti specifici
+
+5. **PERCORSI DI APPROFONDIMENTO** (sezione finale)
+   - Suggerisci letture specifiche tra gli articoli analizzati
+   - Proponi un percorso logico di approfondimento
+   - Stimola il pensiero critico con domande aperte
+
+6. **CONCLUSIONE ISPIRANTE**
+   - Sintetizza il messaggio principale
+   - Richiama la missione dell'Umanesimo Digitale
+   - Invita all'azione o alla riflessione
+
+STILE:
+- Usa il tuo tono caratteristico: spiritoso, diretto, innovativo, loquace
+- Includi riferimenti culturali e filosofici quando appropriato
+- Mantieni un equilibrio tra rigore accademico e accessibilità
+- Non aver paura di prendere posizioni chiare
+
+FORMATO HTML:
+Usa SOLO questi tag (NO <html>, <body>, <head>):
+- <h3> per titoli di sezione principali
+- <h4> per sottotitoli
+- <p> per paragrafi (almeno 10-15 paragrafi!)
+- <ul> e <li> per liste
+- <strong> per enfasi importanti
+- <em> per citazioni, termini tecnici o concetti chiave
+- <blockquote> per citazioni letterali dagli articoli
+
+LUNGHEZZA:
+L'articolo deve essere COMPLETO e SOSTANZIOSO. Non interromperti a metà. Scrivi almeno 800-1000 parole.
+
+Inizia ADESSO con un'introduzione coinvolgente e prosegui fino alla conclusione.`;
+
 
         // Log per debugging (visibile in Netlify logs)
         console.log(`Generating AI summary for query: "${query}" with ${articlesToSummarize.length} articles`);
@@ -151,7 +189,7 @@ Inizia con un'introduzione coinvolgente che contestualizzi la ricerca dell'utent
                 temperature: 0.7,
                 topP: 0.95,
                 topK: 40,
-                maxOutputTokens: 2048,
+                maxOutputTokens: 8192, // Aumentato per articoli completi e dettagliati
             }
         };
 

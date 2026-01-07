@@ -588,6 +588,7 @@ class SearchEngine {
                     }
                 });
             }
+        }
     }
 
     /**

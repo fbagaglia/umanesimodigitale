@@ -44,7 +44,7 @@ class DataManager {
         const maxPosts = 100; // WordPress API limit per pagina
         let allPosts = [];
         let page = 1;
-        const maxPages = 10; // Max 1000 post (10 pagine * 100)
+        const maxPages = 20; // Max 2000 post (20 pagine * 100)
         
         // FASE 1: Carica prima pagina IMMEDIATAMENTE (3-5 secondi)
         try {
@@ -86,7 +86,7 @@ class DataManager {
             
             // FASE 2: Carica resto in BACKGROUND (non blocca l'interfaccia)
             if (firstPagePosts.length === maxPosts) {
-                console.log('🔄 Avvio caricamento background delle pagine 2-10...');
+                console.log('🔄 Avvio caricamento background delle pagine 2-20...');
                 // Ci sono altre pagine, caricale in background
                 this.loadRemainingPostsInBackground(maxPosts, maxPages);
             } else {
@@ -112,17 +112,20 @@ class DataManager {
         while (hasMore && page <= maxPages) {
             try {
                 const url = `${this.apiEndpoint}?per_page=${maxPosts}&page=${page}&_embed`;
+                console.log(`🔄 Caricamento pagina ${page}/${maxPages}...`);
                 const response = await fetch(url);
                 
                 if (!response.ok) {
-                    console.warn(`Errore caricamento pagina ${page}:`, response.status);
+                    console.warn(`❌ Errore HTTP ${response.status} sulla pagina ${page}`);
                     hasMore = false;
                     continue;
                 }
                 
                 const posts = await response.json();
+                console.log(`✅ Pagina ${page}: ricevuti ${posts.length} post`);
                 
                 if (posts.length === 0) {
+                    console.log(`✅ Fine caricamento: pagina ${page} vuota`);
                     hasMore = false;
                 } else {
                     const processedPosts = this.processWordPressPosts(posts);
@@ -130,14 +133,17 @@ class DataManager {
                     
                     // Aggiorna il contatore in tempo reale
                     this.showStatus(
-                        `✅ Connesso! ${this.posts.length} articoli disponibili`, 
+                        `✅ Connesso! ${this.posts.length} articoli disponibili (Pagina ${page}/${maxPages})`, 
                         'success'
                     );
+                    
+                    console.log(`📊 Totale articoli caricati: ${this.posts.length}`);
                     
                     page++;
                     
                     // Se abbiamo ricevuto meno post del limite, non ci sono altre pagine
                     if (posts.length < maxPosts) {
+                        console.log(`✅ Fine caricamento: ultima pagina con ${posts.length} post`);
                         hasMore = false;
                     }
                     

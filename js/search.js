@@ -386,10 +386,12 @@ class SearchEngine {
 
         const button = document.getElementById('generateAISummary');
         const originalContent = this.summaryContent.innerHTML;
+        let originalButtonContent = '';
 
         try {
             // Mostra loading (controlla che il bottone esista)
             if (button) {
+                originalButtonContent = button.innerHTML; // Salva contenuto originale
                 button.disabled = true;
                 button.innerHTML = `
                     <i class="fas fa-spinner fa-spin"></i>
@@ -402,103 +404,145 @@ class SearchEngine {
                     <div class="ai-loading-icon">
                         <i class="fas fa-robot fa-3x"></i>
                     </div>
-                    <h3>🤖 Gemini AI sta analizzando gli articoli...</h3>
+                    <h3>🤖 Gemini 2.5 Flash sta analizzando gli articoli...</h3>
                     <p>Sto generando un riassunto approfondito con analisi critica e collegamenti concettuali.</p>
                     <div class="loading-bar">
                         <div class="loading-bar-fill"></div>
                     </div>
-                    <p class="loading-tip"><em>Questo richiede circa 3-5 secondi</em></p>
+                    <p class="loading-tip"><em>Questo richiede circa 5-10 secondi</em></p>
                 </div>
             `;
 
-            // Chiama Netlify Function
-            const response = await fetch('/.netlify/functions/summarize', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    results: results.slice(0, 5), // Max 5 articoli
-                    query: query
-                })
-            });
+            // Chiama Netlify Function con retry automatico
+            const maxRetries = 3;
+            let lastError;
+            
+            for (let attempt = 1; attempt <= maxRetries; attempt++) {
+                try {
+                    const response = await fetch('/.netlify/functions/summarize', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            results: results.slice(0, 5), // Max 5 articoli
+                            query: query
+                        })
+                    });
 
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-            }
-
-            const data = await response.json();
-
-            if (data.success && data.summary) {
-                // Mostra riassunto AI
-                this.summaryContent.innerHTML = `
-                    <div class="ai-summary-header">
-                        <div class="ai-badge">
-                            <i class="fas fa-magic"></i> Riassunto AI Avanzato
-                        </div>
-                        <div class="ai-metadata">
-                            <span><i class="fas fa-brain"></i> Powered by Gemini 2.5 Flash</span>
-                            <span><i class="fas fa-clock"></i> Generato in ${data.metadata.generationTimeMs}ms</span>
-                            <span><i class="fas fa-file-alt"></i> ${data.metadata.articlesAnalyzed} articoli analizzati</span>
-                        </div>
-                    </div>
-                    
-                    <div class="ai-summary-content">
-                        ${data.summary}
-                    </div>
-
-                    <div class="ai-summary-footer">
-                        <p>
-                            <i class="fas fa-lightbulb"></i>
-                            <strong>Nota:</strong> Questo riassunto è stato generato da un'intelligenza artificiale 
-                            e rappresenta un'interpretazione critica degli articoli. Ti invitiamo a leggere i testi 
-                            originali per una comprensione completa.
-                        </p>
-                        <button id="showBasicSummary" class="secondary-btn">
-                            <i class="fas fa-arrow-left"></i> Torna al riassunto base
-                        </button>
-                    </div>
-                `;
-
-                this.aiSummaryGenerated = true;
-
-                // Event listener per tornare indietro
-                document.getElementById('showBasicSummary')?.addEventListener('click', () => {
-                    this.summaryContent.innerHTML = originalContent;
-                    this.aiSummaryGenerated = false;
-                    // Re-attach event listener
-                    const btn = document.getElementById('generateAISummary');
-                    if (btn) {
-                        btn.addEventListener('click', () => this.generateAISummary(results, query));
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        
+                        // Se è 503 (overloaded), ritenta dopo un delay
+                        if (response.status === 503 && attempt < maxRetries) {
+                            console.log(`Tentativo ${attempt}/${maxRetries} fallito (503), riprovo tra 2 secondi...`);
+                            await new Promise(resolve => setTimeout(resolve, 2000 * attempt)); // Delay progressivo
+                            lastError = new Error('Il modello è sovraccarico. Riprovo automaticamente...');
+                            continue; // Riprova
+                        }
+                        
+                        throw new Error(`HTTP ${response.status}: ${errorData.error || response.statusText}`);
                     }
-                });
+                    
+                    // Successo! Esci dal loop di retry
+                    const data = await response.json();
+                    
+                    if (data.success && data.summary) {
+                        // Mostra riassunto AI (codice esistente continua qui...)
+                        this.summaryContent.innerHTML = `
+                            <div class="ai-summary-header">
+                                <div class="ai-badge">
+                                    <i class="fas fa-magic"></i> Riassunto AI Avanzato
+                                </div>
+                                <div class="ai-metadata">
+                                    <span><i class="fas fa-brain"></i> Powered by Gemini 2.5 Flash</span>
+                                    <span><i class="fas fa-clock"></i> Generato in ${data.metadata.generationTimeMs}ms</span>
+                                    <span><i class="fas fa-file-alt"></i> ${data.metadata.articlesAnalyzed} articoli analizzati</span>
+                                </div>
+                            </div>
+                            
+                            <div class="ai-summary-content">
+                                ${data.summary}
+                            </div>
 
-                // Smooth scroll
-                setTimeout(() => {
-                    this.summaryArticle.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 100);
+                            <div class="ai-summary-footer">
+                                <p>
+                                    <i class="fas fa-lightbulb"></i>
+                                    <strong>Nota:</strong> Questo riassunto è stato generato da un'intelligenza artificiale 
+                                    e rappresenta un'interpretazione critica degli articoli. Ti invitiamo a leggere i testi 
+                                    originali per una comprensione completa.
+                                </p>
+                                <button id="showBasicSummary" class="secondary-btn">
+                                    <i class="fas fa-arrow-left"></i> Torna al riassunto base
+                                </button>
+                            </div>
+                        `;
 
-            } else {
-                throw new Error(data.error || 'Risposta non valida dal server');
+                        this.aiSummaryGenerated = true;
+
+                        // Event listener per tornare al riassunto base
+                        document.getElementById('showBasicSummary')?.addEventListener('click', () => {
+                            this.summaryContent.innerHTML = originalContent;
+                            this.aiSummaryGenerated = false;
+                            const btn = document.getElementById('generateAISummary');
+                            if (btn) {
+                                btn.addEventListener('click', () => this.generateAISummary(results, query));
+                            }
+                        });
+
+                        // Smooth scroll
+                        setTimeout(() => {
+                            this.summaryArticle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 100);
+                        
+                        return; // Successo! Esci dalla funzione
+                        
+                    } else {
+                        throw new Error(data.error || 'Risposta non valida dal server');
+                    }
+                    
+                } catch (fetchError) {
+                    lastError = fetchError;
+                    if (attempt < maxRetries) {
+                        console.log(`Tentativo ${attempt}/${maxRetries} fallito, riprovo...`);
+                        await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+                        continue;
+                    }
+                }
             }
+            
+            // Se arriviamo qui, tutti i retry sono falliti
+            throw lastError;
 
         } catch (error) {
             console.error('Errore durante la generazione del riassunto AI:', error);
 
+            // Riabilita il bottone originale
+            if (button) {
+                button.disabled = false;
+                button.innerHTML = originalButtonContent || `<i class="fas fa-magic"></i> <span>Genera Riassunto AI Avanzato</span>`;
+            }
+
             // Determina il messaggio di errore appropriato
             let errorMessage = error.message;
-            let helpText = 'Il servizio AI potrebbe essere temporaneamente non disponibile o non configurato.';
+            let helpText = 'Il servizio AI potrebbe essere temporaneamente sovraccarico. Riprova tra qualche secondo.';
+            let showRetry = true;
             
             // Errori specifici con messaggi più chiari
-            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+            if (error.message.includes('503') || error.message.includes('overloaded') || error.message.includes('UNAVAILABLE')) {
+                errorMessage = 'Il modello Gemini è temporaneamente sovraccarico';
+                helpText = 'Google limita le richieste gratuite. Riprova tra 10-30 secondi oppure usa il riassunto base.';
+            } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
                 errorMessage = 'Impossibile connettersi al servizio AI';
-                helpText = 'Stai testando il sito in locale? Le AI Functions funzionano solo su Netlify. Oppure il servizio potrebbe essere temporaneamente non disponibile.';
+                helpText = 'Verifica la connessione internet oppure riprova tra qualche secondo.';
             } else if (error.message.includes('404')) {
                 errorMessage = 'Servizio AI non trovato';
-                helpText = 'Le Netlify Functions non sono configurate. Assicurati di aver fatto il deploy su Netlify seguendo la guida NETLIFY-DEPLOY.md';
+                helpText = 'Le Netlify Functions non sono configurate correttamente.';
+                showRetry = false;
             } else if (error.message.includes('500')) {
                 errorMessage = 'Errore del server AI';
-                helpText = 'Controlla che la GEMINI_API_KEY sia configurata correttamente nelle Environment Variables di Netlify.';
+                helpText = 'Controlla che la GEMINI_API_KEY sia configurata correttamente.';
+                showRetry = false;
             }
 
             // Mostra errore con fallback
@@ -510,30 +554,40 @@ class SearchEngine {
                     <h3>Impossibile generare il riassunto AI</h3>
                     <p><strong>Errore:</strong> ${this.escapeHtml(errorMessage)}</p>
                     <p>${helpText}</p>
-                    <button id="retryAI" class="retry-btn">
-                        <i class="fas fa-redo"></i> Riprova
-                    </button>
+                    ${showRetry ? `
+                        <button id="retryAI" class="retry-btn">
+                            <i class="fas fa-redo"></i> Riprova
+                        </button>
+                    ` : ''}
                     <button id="showBasicSummaryError" class="secondary-btn">
                         <i class="fas fa-list"></i> Mostra riassunto base
                     </button>
                 </div>
             `;
 
-            // Event listeners
-            document.getElementById('retryAI')?.addEventListener('click', () => {
-                this.aiSummaryGenerated = false;
-                this.generateAISummary(results, query);
-            });
+            // Event listeners per i bottoni di errore
+            const retryBtn = document.getElementById('retryAI');
+            if (retryBtn) {
+                retryBtn.addEventListener('click', () => {
+                    this.aiSummaryGenerated = false;
+                    this.generateAISummary(results, query);
+                });
+            }
 
-            document.getElementById('showBasicSummaryError')?.addEventListener('click', () => {
-                this.summaryContent.innerHTML = originalContent;
-                this.aiSummaryGenerated = false;
-                const btn = document.getElementById('generateAISummary');
-                if (btn) {
-                    btn.addEventListener('click', () => this.generateAISummary(results, query));
-                }
-            });
-        }
+            const showBasicBtn = document.getElementById('showBasicSummaryError');
+            if (showBasicBtn) {
+                showBasicBtn.addEventListener('click', () => {
+                    this.summaryContent.innerHTML = originalContent;
+                    this.aiSummaryGenerated = false;
+                    // Riabilita il bottone originale
+                    const btn = document.getElementById('generateAISummary');
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = originalButtonContent || `<i class="fas fa-magic"></i> <span>Genera Riassunto AI Avanzato</span>`;
+                        btn.addEventListener('click', () => this.generateAISummary(results, query));
+                    }
+                });
+            }
     }
 
     /**

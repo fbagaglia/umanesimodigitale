@@ -137,8 +137,8 @@ Inizia con un'introduzione coinvolgente che contestualizzi la ricerca dell'utent
         // Log per debugging (visibile in Netlify logs)
         console.log(`Generating AI summary for query: "${query}" with ${articlesToSummarize.length} articles`);
 
-        // Chiama direttamente l'API REST v1 di Gemini (per usare gemini-1.5-flash)
-        const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+        // Chiama direttamente l'API REST v1 di Gemini (per usare gemini-1.5-flash-001)
+        const apiUrl = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-001:generateContent?key=${apiKey}`;
         
         const requestBody = {
             contents: [{

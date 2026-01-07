@@ -388,12 +388,14 @@ class SearchEngine {
         const originalContent = this.summaryContent.innerHTML;
 
         try {
-            // Mostra loading
-            button.disabled = true;
-            button.innerHTML = `
-                <i class="fas fa-spinner fa-spin"></i>
-                <span>Gemini sta generando il riassunto...</span>
-            `;
+            // Mostra loading (controlla che il bottone esista)
+            if (button) {
+                button.disabled = true;
+                button.innerHTML = `
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Gemini sta generando il riassunto...</span>
+                `;
+            }
 
             this.summaryContent.innerHTML = `
                 <div class="ai-loading">
@@ -435,7 +437,7 @@ class SearchEngine {
                             <i class="fas fa-magic"></i> Riassunto AI Avanzato
                         </div>
                         <div class="ai-metadata">
-                            <span><i class="fas fa-brain"></i> Powered by Gemini 1.5 Flash</span>
+                            <span><i class="fas fa-brain"></i> Powered by Gemini 2.5 Flash</span>
                             <span><i class="fas fa-clock"></i> Generato in ${data.metadata.generationTimeMs}ms</span>
                             <span><i class="fas fa-file-alt"></i> ${data.metadata.articlesAnalyzed} articoli analizzati</span>
                         </div>
@@ -483,6 +485,22 @@ class SearchEngine {
         } catch (error) {
             console.error('Errore durante la generazione del riassunto AI:', error);
 
+            // Determina il messaggio di errore appropriato
+            let errorMessage = error.message;
+            let helpText = 'Il servizio AI potrebbe essere temporaneamente non disponibile o non configurato.';
+            
+            // Errori specifici con messaggi più chiari
+            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                errorMessage = 'Impossibile connettersi al servizio AI';
+                helpText = 'Stai testando il sito in locale? Le AI Functions funzionano solo su Netlify. Oppure il servizio potrebbe essere temporaneamente non disponibile.';
+            } else if (error.message.includes('404')) {
+                errorMessage = 'Servizio AI non trovato';
+                helpText = 'Le Netlify Functions non sono configurate. Assicurati di aver fatto il deploy su Netlify seguendo la guida NETLIFY-DEPLOY.md';
+            } else if (error.message.includes('500')) {
+                errorMessage = 'Errore del server AI';
+                helpText = 'Controlla che la GEMINI_API_KEY sia configurata correttamente nelle Environment Variables di Netlify.';
+            }
+
             // Mostra errore con fallback
             this.summaryContent.innerHTML = `
                 <div class="ai-error">
@@ -490,11 +508,8 @@ class SearchEngine {
                         <i class="fas fa-exclamation-triangle fa-3x"></i>
                     </div>
                     <h3>Impossibile generare il riassunto AI</h3>
-                    <p><strong>Errore:</strong> ${this.escapeHtml(error.message)}</p>
-                    <p>
-                        Il servizio AI potrebbe essere temporaneamente non disponibile o non configurato. 
-                        Ecco il riassunto standard:
-                    </p>
+                    <p><strong>Errore:</strong> ${this.escapeHtml(errorMessage)}</p>
+                    <p>${helpText}</p>
                     <button id="retryAI" class="retry-btn">
                         <i class="fas fa-redo"></i> Riprova
                     </button>

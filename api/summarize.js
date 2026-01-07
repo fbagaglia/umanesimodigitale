@@ -13,7 +13,7 @@
  * NOTA: Usa chiamate REST dirette all'API v1 per accedere a gemini-2.5-flash
  */
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     // Gestisci CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');

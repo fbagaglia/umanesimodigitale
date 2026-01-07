@@ -49,15 +49,34 @@ class DataManager {
         // FASE 1: Carica prima pagina IMMEDIATAMENTE (3-5 secondi)
         try {
             const firstPageUrl = `${this.apiEndpoint}?per_page=${maxPosts}&page=1&_embed`;
-            const firstResponse = await fetch(firstPageUrl);
+            
+            console.log('🔄 Caricamento prima pagina da:', firstPageUrl);
+            
+            // Fetch con timeout di 15 secondi
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000);
+            
+            const firstResponse = await fetch(firstPageUrl, {
+                signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
             
             if (!firstResponse.ok) {
+                console.error('❌ HTTP error:', firstResponse.status);
                 throw new Error(`HTTP error! status: ${firstResponse.status}`);
             }
             
+            console.log('✅ Prima pagina ricevuta, parsing JSON...');
+            
             const firstPagePosts = await firstResponse.json();
+            
+            console.log(`✅ Processati ${firstPagePosts.length} post dalla prima pagina`);
+            
             allPosts = this.processWordPressPosts(firstPagePosts);
             this.posts = allPosts; // Aggiorna subito con la prima pagina
+            
+            console.log(`✅ ${allPosts.length} articoli pronti per la ricerca`);
             
             // Mostra interfaccia SUBITO con i primi 100 post
             this.showStatus(
@@ -67,11 +86,18 @@ class DataManager {
             
             // FASE 2: Carica resto in BACKGROUND (non blocca l'interfaccia)
             if (firstPagePosts.length === maxPosts) {
+                console.log('🔄 Avvio caricamento background delle pagine 2-10...');
                 // Ci sono altre pagine, caricale in background
                 this.loadRemainingPostsInBackground(maxPosts, maxPages);
+            } else {
+                console.log(`✅ Tutte le pagine caricate (${allPosts.length} articoli totali)`);
             }
             
         } catch (error) {
+            console.error('❌ Errore caricamento WordPress:', error);
+            if (error.name === 'AbortError') {
+                console.error('❌ Timeout: La richiesta ha impiegato più di 15 secondi');
+            }
             throw error; // Propaghiamo l'errore al chiamante
         }
     }

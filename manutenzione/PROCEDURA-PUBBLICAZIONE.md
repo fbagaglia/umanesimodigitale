@@ -61,7 +61,7 @@ L'agente **prepara il testo della didascalia** (vedi §6), ma l'inserimento del 
 
 > **Un solo scrittore alla volta.** Se l'articolo è aperto nell'editor di WordPress mentre l'agente lavora via MCP, **vince la copia dell'editor**: basta un salvataggio — o un incolla di markup vecchio — e le modifiche dell'agente spariscono senza un errore da nessuna parte. Prima di toccare un articolo nell'editor, **ricaricare la pagina**; l'agente, prima di ogni modifica, rilegge i blocchi e scrive con il **confronto d'impronta** (`if_hash`).
 >
-> **La verifica si fa sui blocchi, non sull'anteprima.** La pagina di anteprima può essere servita dalla **cache** (WP-Optimize) e mostrare una versione vecchia: lo stato vero si legge con **`wp_get_blocks`**. Solo dopo si guarda la resa HTML — e se le due cose si contraddicono, prima si svuota la cache e poi si conclude.
+> **La verifica si fa sui blocchi, non sull'anteprima.** L'anteprima mostra il contenuto **memorizzato** — misurato il 7 novembre 2026: risponde `Cache-Control: no-store`, quindi **non c'è cache di mezzo**. Se mostra una versione vecchia, il post **è stato davvero riscritto** da un'altra sessione. Lo stato lo dice **`wp_get_blocks`**; dopo ogni scrittura si rilegge subito per conferma.
 
 ---
 

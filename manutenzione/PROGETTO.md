@@ -120,6 +120,35 @@ La distinzione corretta **non è** «creare sì, modificare no»: è **bozza sì
 2. **spegnere temporaneamente `Drafts Only`**, decidendolo *prima* di iniziare e riaccendendolo subito dopo: l'agente lavora direttamente sul pubblicato, ma perde la rete di sicurezza che rende tutto il resto tranquillo;
 3. **`wp_restore_revision`**: ripristinare una revisione di un articolo pubblicato **cambia ciò che è live**, quindi ricade con ogni probabilità nella stessa regola. Da verificare sul campo, su un caso vero e con il consenso dell'utente, non per ipotesi.
 
+### Mettere in bozza e ripubblicare: funziona, ma non è gratis
+
+**La mossa**: si porta l'articolo da *pubblicato* a *bozza*, lo si modifica, lo si ripubblica. Funziona, e il fondamento è chiaro: `Drafts Only` protegge **ciò che è live**; se il contenuto non è più live, è modificabile come qualsiasi bozza. Il confine è **lo stato**, non l'età dell'articolo.
+
+**Ma il cambio di stato va fatto dall'utente**: portare un pubblicato in bozza *è* una modifica al live, quindi per l'agente è bloccata come tutto il resto. Un clic in bacheca — oppure lo spegnimento temporaneo di `Drafts Only` (strada 2), che a quel punto è la stessa cosa vista da un'altra porta.
+
+**E nel frattempo l'articolo non esiste più.** Per un magazine con storia SEO questo non è un dettaglio:
+
+| Cosa succede mentre è in bozza | Perché conta |
+|---|---|
+| L'URL risponde **404** | Chi arriva da un link — interno, social, newsletter, backlink — trova una pagina vuota |
+| Esce dal **feed** e dalla **sitemap** | I lettori abbonati al feed e i motori lo perdono di vista |
+| Esce dalla **home** e dalle liste | Se era in evidenza o in una serie, si rompe la composizione |
+| I **commenti** spariscono (tornano al ripubblicare) | Su un articolo discusso è un'interruzione visibile |
+| La **cache** può conservare il 404 | WP-Optimize è installato: il vuoto può restare anche dopo |
+
+E un rischio da verificare caso per caso: **la ripubblicazione può essere letta come una nuova pubblicazione dalle automazioni**. Con **WP Telegram Pro** e **Feedzy** installati, l'invio al canale o l'importazione possono ripartire. Va controllato **prima** di ripubblicare, non dopo.
+
+### La strada migliore: lo scambio sul posto
+
+Sfrutta una libertà che non ha controindicazioni: **le bozze separate non toccano il live.**
+
+1. L'agente legge l'articolo pubblicato (blocchi, metadati, campi SEO) e prepara una **nuova bozza** con la versione corretta — o la sola parte da correggere.
+2. L'utente apre l'articolo pubblicato e **sostituisce il contenuto** con quello della bozza (in Gutenberg: seleziona tutto nella bozza, copia, incolla nel pubblicato).
+3. **ID, slug e URL restano intatti**: nessun 404, nessuna uscita da feed e sitemap, nessun commento nascosto, nessuna automazione che riparte.
+4. La bozza di servizio si cestina in bacheca (o si tiene come copia di lavoro).
+
+Costa un copia-e-incolla in più e in cambio non c'è un solo secondo in cui il sito mostra un buco. **Per un articolo pubblicato da mesi, è la strada da preferire sempre.** Il "metti in bozza e ripubblica" resta sensato solo per contenuti recenti, poco linkati, o quando la modifica è così profonda che rifare l'articolo è più semplice che correggerlo.
+
 ### La cancellazione non passa da qui
 
 Fra i 54 strumenti l'unico `delete` è quello delle note dell'editor. Non esiste alcuno strumento per cestinare un articolo, una pagina o un commento. È una scelta di progetto coerente con il privilegio minimo — e significa che l'igiene dei contenuti (bozze vecchie, doppioni) resta un'operazione umana, in bacheca.

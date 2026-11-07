@@ -15,7 +15,7 @@
 
 | # | Parte | Che cos'è tecnicamente | Chi la produce |
 |---|---|---|---|
-| 1 | **Podcast** | blocco `embed`, Spotify, **aspect 21:9** | episodio del podcast, uno per articolo |
+| 1 | **Podcast** *(dopo la pubblicazione)* | blocco `embed`, Spotify, **aspect 21:9** | **l'utente**, quando l'articolo è live: la didascalia dell'episodio deve contenere l'URL dell'articolo |
 | 2 | *spaziatore* | `paragraph` vuoto | — |
 | 3 | **Apertura (il «modulo info»)** | `uagb/container` (fondo `var(--ast-global-color-4)`) con dentro un `uagb/info-box`: **copertina + titolo-gancio (h3, colore #379557) + occhiello** | Spectra |
 | 4 | *separatore* | `separator` | — |
@@ -129,7 +129,7 @@ Come il podcast, ma YouTube e proporzione **16:9**.
 
 ## 5. Checklist prima di consegnare un articolo
 
-- [ ] Il podcast Spotify è in testa, in **21:9**
+- [ ] Il podcast **non è ancora in testa**: si aggiunge **dopo** la pubblicazione (la didascalia Spotify richiede l'URL dell'articolo)
 - [ ] L'apertura ha **copertina + titolo-gancio + occhiello**, e l'occhiello comincia con la frase-sintesi in corsivo
 - [ ] I titoli di sezione sono **h2** (mai h3, mai due h1)
 - [ ] La sezione FAQ si chiama **«Domande frequenti»** — non il nome dell'argomento
@@ -138,13 +138,23 @@ Come il podcast, ma YouTube e proporzione **16:9**.
 - [ ] Le domande FAQ sono 3-5, con risposte autosufficienti
 - [ ] **Tutte le immagini hanno l'alt** (verificato con `wp_get_rendered`: «immagini senza alt»)
 - [ ] Il **pattern invito** è in fondo
-- [ ] Campi SEO compilati in Rank Math (titolo ≤ 60, description ≤ 155)
+- [ ] Campi SEO compilati in Rank Math (titolo ≤ 60, description ≤ **160**)
 - [ ] Occhiello e slug coerenti con il titolo
 - [ ] Anteprima generata e **resa controllata** prima della consegna
 
 ---
 
 ## 6. Che cosa migliorare — il registro
+
+### 7 novembre 2026 — il podcast è **post-pubblicazione** (cambio d'ordine)
+
+| Che cosa cambia | Perché |
+|---|---|
+| Il **podcast** (parte 1) **non** si mette alla consegna: si aggiunge **dopo** la pubblicazione, a cura dell'utente | Nella didascalia dell'episodio Spotify deve comparire il **link dell'articolo**, che esiste solo dopo la pubblicazione. Metterlo prima significherebbe lavorare due volte sullo stesso punto |
+| In consegna il podcast **non c'è**, quindi la checklist verifica il contrario di prima: che **non** sia in testa | coerenza con il punto sopra |
+| L'agente prepara il **testo della didascalia** dell'episodio | così l'utente, appena pubblicato, ha già tutto pronto |
+
+**Procedura completa, con i ruoli e le nove fasi:** `manutenzione/PROCEDURA-PUBBLICAZIONE.md`.
 
 ### 7 novembre 2026 — difetti trovati nell'articolo 37476 (corrente)
 
@@ -157,7 +167,7 @@ Come il podcast, ma YouTube e proporzione **16:9**.
 
 ### Aperte, da decidere insieme
 
-- **Da dove arriva l'episodio Spotify**: se il podcast si genera dall'articolo, la catena va documentata qui (chi lo produce, quando, dove si prende l'URL).
+- **Da dove arriva l'episodio Spotify** *(deciso il 7 novembre 2026)*: lo produce **l'utente**, **dopo** la pubblicazione, perché nella didascalia dell'episodio deve comparire il link dell'articolo. Non è una domanda aperta: è il flusso stabilito.
 - **Da dove arriva la miniatura** delle card: presa dall'anteprima del sito di destinazione. Va verificata **prima** di consegnare, e per le immagini di terzi è opportuno citare la fonte.
 - **Link esterni e SEO**: oggi sono `rel="noopener"`. Aggiungere `nofollow` è una scelta di SEO, non un obbligo: decisione dell'utente, non dell'agente.
 - **Accessibilità delle miniature**: sono immagini di *sfondo*, quindi invisibili agli screen reader. Va bene se sono decorative — e lo sono, perché il titolo della card dice già tutto. Se un giorno portassero informazione, servirà un `<img alt="…">`.

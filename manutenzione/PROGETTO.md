@@ -82,11 +82,47 @@ Stato reale del canale MCP su questo sito: **54 strumenti esposti**, connessione
 
 ---
 
-## 3. Le due scoperte operative (da sapere prima di promettere qualcosa)
+## 3. Le scoperte operative (da sapere prima di promettere qualcosa)
 
-**Prima: sul sito pubblicato l'agente non scrive.** *Drafts Only* significa esattamente questo: si creano e si modificano **bozze**; non si pubblica, non si programma, non si cambia ciò che è live. Quindi la frase «mi sistemi quel refuso nell'articolo uscito ieri» **non è un lavoro eseguibile oggi** con questa configurazione. Due strade: (a) l'agente prepara il testo corretto e l'utente lo applica; (b) si spegne *Drafts Only* per il tempo necessario, consapevolmente, e si riaccende. La (b) va decisa prima, non a metà lavoro.
+### Con quale protocollo agisce l'agente: MCP, non REST
 
-**Seconda: la cancellazione non passa da qui.** Fra i 54 strumenti l'unico `delete` è quello delle note dell'editor. Non esiste alcuno strumento per cestinare un articolo, una pagina o un commento. È una scelta di progetto coerente con il privilegio minimo — e significa che l'igiene dei contenuti (bozze vecchie, doppioni) resta un'operazione umana, in bacheca.
+Tre livelli, spesso confusi in uno:
+
+| Livello | Che cos'è qui |
+|---|---|
+| **Protocollo** | **MCP** — l'agente non chiama endpoint REST: chiede il **catalogo degli strumenti** e invoca quelli (`wp_create_post`, `wp_update_seo`, …) |
+| **Trasporto** | **HTTP**, su un solo endpoint: `/wp-json/mcp/v1/<token>` |
+| **Perché sta sotto `/wp-json/`** | Perché WordPress registra lì le proprie rotte. È l'indirizzo, non il protocollo |
+
+Conseguenze pratiche, e sono il motivo per cui la distinzione conta:
+
+- la **REST API del nucleo** (`/wp/v2/posts`) **non è il canale** usato dall'agente: nessuna richiesta passa da lì;
+- la **Public API di AI Engine** (`mwai/v1`, 122 rotte) è **chiusa** agli anonimi — verificato: risponde `401 rest_forbidden`;
+- **è il fatto di usare MCP** a portare con sé il catalogo di strumenti, i **Tool Set**, l'**Access Level**, le approvazioni, `Drafts Only` e la **cronologia annullabile a 30 giorni**. Se l'agente scrivesse con la REST API nuda, quei freni non esisterebbero: avrebbe un token e i permessi dell'utente, e basta.
+
+### Che cosa significa «non modificare il pubblicato»
+
+La distinzione corretta **non è** «creare sì, modificare no»: è **bozza sì, live no**.
+
+| Operazione | Si può? |
+|---|---|
+| **Creare** un nuovo articolo o una pagina | **Sì** — nasce come **bozza** |
+| **Modificare una bozza** — quante volte serve, anche riscrivendola da capo | **Sì**, senza limiti |
+| Modificare un articolo **pubblicato** o programmato | **No** — «non cambiare ciò che è live» |
+| Pubblicare o programmare | **No** — pubblica l'utente |
+| Cestinare o eliminare articoli, pagine, commenti | **No** — nessuno strumento: si fa in bacheca |
+
+**Quindi una bozza si crea *e* si modifica all'infinito.** Il limite non è sull'articolo nuovo: è sul confine fra ciò che è pubblicato e ciò che non lo è.
+
+**E per correggere qualcosa di pubblicato**, tre strade — in ordine di sensatezza:
+
+1. **la bozza corretta** *(consigliata)*: l'agente legge il pubblicato, ne prepara una **versione corretta come nuova bozza** (o il testo pronto in chat) e l'utente lo applica o lo sostituisce. Nessun accesso al live, nessuna configurazione da cambiare;
+2. **spegnere temporaneamente `Drafts Only`**, decidendolo *prima* di iniziare e riaccendendolo subito dopo: l'agente lavora direttamente sul pubblicato, ma perde la rete di sicurezza che rende tutto il resto tranquillo;
+3. **`wp_restore_revision`**: ripristinare una revisione di un articolo pubblicato **cambia ciò che è live**, quindi ricade con ogni probabilità nella stessa regola. Da verificare sul campo, su un caso vero e con il consenso dell'utente, non per ipotesi.
+
+### La cancellazione non passa da qui
+
+Fra i 54 strumenti l'unico `delete` è quello delle note dell'editor. Non esiste alcuno strumento per cestinare un articolo, una pagina o un commento. È una scelta di progetto coerente con il privilegio minimo — e significa che l'igiene dei contenuti (bozze vecchie, doppioni) resta un'operazione umana, in bacheca.
 
 ---
 

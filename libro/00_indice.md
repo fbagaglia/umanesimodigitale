@@ -1,13 +1,13 @@
 # Quando l'AI incontra WordPress
 
 **Come un agente intelligente legge, scrive e lavora dentro un sito — e come farlo in sicurezza**
-*Capitolo del libro / Umanesimo Digitale*
+*Testo tecnico · Umanesimo Digitale*
 
 ---
 
 ## Nota di metodo (da leggere prima)
 
-Questo capitolo non è una traduzione della documentazione ufficiale, e non è nemmeno la trascrizione di una conversazione con un modello. È un testo scritto con un criterio preciso:
+Questo volume non è una traduzione della documentazione ufficiale, e non è nemmeno la trascrizione di una conversazione con un modello. È un testo scritto con un criterio preciso:
 
 1. **Ogni dato tecnico è stato verificato sulla fonte primaria**, con la data della verifica accanto. Le versioni dei plugin vengono dal repository ufficiale WordPress.org, le funzionalità di AI Engine dalla sua documentazione e dal suo codice pubblico, i prezzi dei modelli dall'API di OpenRouter.
 2. **Le cifre del caso di studio sono misure reali**, prese dal vivo sul sito `umanesimodigitale.info` il 7 novembre 2026 attraverso il collegamento MCP attivo. Non sono stime.
@@ -58,7 +58,7 @@ Il motivo di questa insistenza è che l'argomento si presta a un errore tipico: 
 1. Metodo: che cosa ho guardato, e come
 2. La fotografia dell'installazione
 3. Il canale MCP, come è fatto davvero
-4. Perché l'OAuth non ha funzionato (e la lezione)
+4. L'OAuth: perché non funzionava, e la lezione
 5. L'inventario di ciò che l'agente sa fare oggi
 6. Lo stato dei contenuti: le 541 bozze
 7. La sovrapposizione: due chatbot sullo stesso sito
@@ -79,7 +79,7 @@ Il motivo di questa insistenza è che l'argomento si presta a un errore tipico: 
 
 ### Parte VI — MCP in pratica: i due MCP di AI Engine, e che cosa posso farci
 1. Perché un capitolo su MCP
-2. I due MCP: server e client (la tabella che li distingue)
+2. I due MCP: server e client — e i tre pezzi di una vetrina: le mani, il ponte, la conoscenza
 3. Il nostro server MCP, com'è fatto
 4. Che cosa ci posso fare: sei mestieri, tradotti dal sito reale
 5. Perché un agente dovrebbe (o non dovrebbe) toccare le impostazioni — i Tool Set, uno per uno
@@ -95,10 +95,10 @@ Il motivo di questa insistenza è che l'argomento si presta a un errore tipico: 
 6. WPBot e AI Engine: il confronto — perché AI Engine interagisce più completamente con il sito
 
 ### Appendice A — Scheda di configurazione di AI Engine
-A. Che cosa è accertato dall'esterno · B. Le quattordici voci da verificare in bacheca · C. Il must «OpenRouter + DeepSeek flash» tradotto in configurazione, con i costi reali · D. Che cosa manca, in sintesi
+A. Che cosa è accertato dall'esterno · B. Le sedici voci da verificare in bacheca · C. Il must «OpenRouter + DeepSeek flash» tradotto in configurazione, con i costi reali · D. Che cosa manca, in sintesi
 
 ### Appendice B — Tour delle schermate di AI Engine
-Le schermate reali dell'installazione, spiegate una per una: il Playground (la sala prove) e il Content Studio (la scrivania), con le voci da controllare
+Le schermate reali dell'installazione, spiegate una per una: il **Playground** (la sala prova), il **Content Studio** (la scrivania) e **Knowledge** (la memoria del sito), con le domande frequenti e la procedura per spostare la memoria su WordPress
 
 ### Appendice C — Procedura: portare gli embedding nel database di WordPress
 Runbook in 10 fasi (0–9) con durate, punti di controllo, rimedi agli errori e checklist finale

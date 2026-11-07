@@ -97,3 +97,15 @@ Il capitolo non cita come fonte articoli divulgativi, elenchi di plugin, né con
 **Meow Apps** (`meowapps.com`) — presentazione della casa produttrice («l'azienda AI per WordPress», oltre 350.000 siti) e la famiglia di plugin: AI Engine, SEO Engine, Code Engine, Media Cleaner, Database Cleaner, Media File Renamer, Perfect Images, Social Engine, Meow Lightbox, Photo Engine. Pagina dei download (`meowapps.com/products/`) per l'elenco degli **add-on**: User Memory, DeepSeek, Content Parser, Visitor Form, Woo Basics, Quick Actions, Dynamic Keys, Web Search.
 
 **Misure sul sito del caso di studio, 7 novembre 2026, ore 14:40–15:00 CET** — conteggio delle rotte REST per namespace, letto da `/wp-json/`: `mwai/v1` 122 rotte, `mwai-ui/v1` 14, `mwai-visitor-form/v1` 8, `meow-licenser/mwaiweb/v1` 3, `wpbot/v1` 4, `qcwpbot/v1` **75** (di cui 73 sotto `/email/…` e 1 `leadfinder/settings`), `mcp` + `mcp/v1` 27. Registrazione OAuth riverificata sull'endpoint `/wp-json/mcp/v1/oauth/register`.
+
+---
+
+## Fonti aggiunte per la Parte VI
+
+**`vibewithwp.ai`** — pagina divulgativa di Meow Apps che racconta l'architettura complessiva («tu dici → il tuo AI è il cervello → AI Engine sono le mani → il tuo sito è WordPress»), e la sequenza in due passi: collegare l'AI, poi aggiungere la conoscenza. Da qui i nomi e i ruoli dei tre pezzi.
+
+**`connectwp.ai`** — la pagina del ponte: indirizzo `https://connectwp.ai/mcp`, procedura per ChatGPT (serve un piano a pagamento per i server MCP personalizzati), per Claude (dal *directory*) e per gli agenti da terminale (Claude Code, Codex, Cursor). Da qui le dichiarazioni verificate nel testo: nessuna password conservata, nessuna registrazione del contenuto delle richieste, accesso revocabile dal proprio WordPress, e **installazione di AI Engine durante il collegamento** se il plugin non c'è.
+
+**`todaywp.com`** — la pagina della conoscenza: indirizzo `https://todaywp.com/mcp`, le fonti sincronizzate (WordPress.org, PHP.net, documentazione, page builder, plugin, Wordfence/Patchstack/WPScan, notizie), la dichiarazione che **non tocca il sito** (l'agente ha due connessioni separate), e il confronto misurato «con / senza» in numero di chiamate e token. Esiste anche una *skill* opzionale per l'agente (`todaywp.com/skill.md`).
+
+*Tutte le pagine consultate il 7 novembre 2026.*

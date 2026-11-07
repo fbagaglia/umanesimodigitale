@@ -94,7 +94,7 @@ Zero. Il canale è aperto, autenticato, funzionante — e **mai usato per scrive
 
 **Che cosa manca, e che cosa significa.** La documentazione dichiara **66 strumenti** nella versione gratuita e **oltre 100** con la Pro. Qui ne risultano **54**. La differenza si spiega con i **MCP Tool Sets** — i gruppi di strumenti che si scelgono nella scheda MCP — e con i set legati ai plugin: in questo elenco, per esempio, **non ci sono strumenti per utenti, plugin, temi, database o opzioni**. È una buona notizia dal punto di vista della sicurezza, ma è un fatto da *decidere*, non da subire: quei set sono spenti, e vale la pena chiedersi se lo sono per scelta o per omissione.
 
-## 4. Perché l'OAuth non ha funzionato (e la lezione)
+## 4. L'OAuth: perché non funzionava, e la lezione
 
 La strada normale per collegare un agente a un sito è OAuth: l'agente apre una pagina di autorizzazione sul sito, tu scegli l'accesso e approvi. In questa installazione, quella strada **non ha funzionato**, e il motivo è istruttivo.
 

@@ -180,4 +180,4 @@ Allora la domanda giusta non è «come la riparo», ma **«per chi la riparo»**
 
 ---
 
-*(Le prossime schermate si aggiungono qui sotto, in ordine, man mano che vengono raccolte.)*
+*Le altre schermate dell'installazione — Workspace, Insights, MCP, Chatbots — si aggiungono qui con la stessa forma: che cosa si vede, a che cosa serve, che cosa va segnalato.*

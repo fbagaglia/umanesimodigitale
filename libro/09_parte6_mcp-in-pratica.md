@@ -25,6 +25,26 @@ Il primo è quello che sta funzionando sul sito di questo libro. Il secondo è u
 
 **La relazione tra i due, in una frase**: il *server* mette il sito a disposizione degli agenti; il *client* mette gli agenti a disposizione del sito. Sono la stessa medaglia vista dai due lati — e **nessuno dei due sostituisce le funzioni** interne, che restano la via più semplice e veloce per far fare qualcosa allo stesso sito (§6).
 
+### Le mani, il ponte, la conoscenza: i tre pezzi di una vetrina
+
+Meow Apps — lo stesso autore di AI Engine — racconta la propria architettura su una pagina divulgativa (`vibewithwp.ai`) con una metafora azzeccata: **tu dici, il tuo AI è il cervello, AI Engine sono le mani, il tuo sito è WordPress**. Vale la pena tradurre quella vetrina nel vocabolario di questo libro, perché il lettore la incontrerà di sicuro e perché i suoi tre pezzi **non fanno la stessa cosa**.
+
+| Pezzo della vetrina | Il ruolo | Nel vocabolario di questo libro |
+|---|---|---|
+| **AI Engine** | *le mani*: esegue con i tuoi permessi WordPress | il **server MCP** del sito (§2) |
+| **Connect WP** (`connectwp.ai/mcp`) | *il ponte*: passa le richieste dal tuo AI al sito. «Firma l'accesso, passa ogni richiesta, non conserva nulla»; e se non hai AI Engine, lo installa durante il collegamento | la via **indiretta**, alternativa al collegamento diretto (Parte III §7) |
+| **Today WP** (`todaywp.com/mcp`) | *la conoscenza*: versioni, vulnerabilità (Wordfence, Patchstack, WPScan), notizie e documentazione, sincronizzate da fonti ufficiali | un **MCP esterno in sola lettura**, che non tocca il sito |
+
+Il punto architetturale è illustrato bene dalla pagina di Today WP: **le connessioni sono due, e sono separate.** L'agente lavora sul tuo sito *attraverso il connettore del sito*; chiede conoscenza a Today WP *attraverso un'altra porta*. Today WP **legge e basta**: non entra nel tuo WordPress. E la ragione per cui esiste è concreta — un modello addestrato mesi fa non sa quale plugin è sicuro **oggi** — con un guadagno dichiarato e misurabile in **meno chiamate e meno token**, e ogni fatto datato al giorno.
+
+Tre precisazioni che una vetrina non fa, e che qui servono.
+
+**Il ponte è un passaggio in più, su un server che non è il tuo.** Connect WP dichiara di non conservare né la password né il contenuto delle richieste, e l'accesso si revoca dal proprio WordPress: sono garanzie ragionevoli, ma la connessione diretta (§3) resta preferibile quando si può configurare, perché il traffico non esce dal perimetro.
+
+**«Tutto gratis» va letto con precisione.** Sono gratuiti il plugin e il server MCP — esattamente ciò che questa parte descrive. Chatbot, scrittura assistita, Knowledge, set di strumenti Pro e registrazione delle chiamate si pagano altrove: al provider dei modelli (Parte III §3) o con la licenza Pro (§6).
+
+**La vetrina racconta la capacità, non il governo.** Di *Drafts Only*, *Access Level*, *Ask Before*, cronologia annullabile e Tool Set non parla. È la parte che questo libro aggiunge — e non è un dettaglio da addetti ai lavori: è ciò che distingue un agente a cui si affida un sito da un agente con cui si scherza una sera.
+
 ## 3. Il nostro server MCP, com'è fatto
 
 Ricapitolando le misure della Parte IV, con le aggiunte di questa:

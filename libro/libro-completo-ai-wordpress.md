@@ -1,13 +1,13 @@
 # Quando l'AI incontra WordPress
 
 **Come un agente intelligente legge, scrive e lavora dentro un sito — e come farlo in sicurezza**
-*Capitolo del libro / Umanesimo Digitale*
+*Testo tecnico · Umanesimo Digitale*
 
 ---
 
 ## Nota di metodo (da leggere prima)
 
-Questo capitolo non è una traduzione della documentazione ufficiale, e non è nemmeno la trascrizione di una conversazione con un modello. È un testo scritto con un criterio preciso:
+Questo volume non è una traduzione della documentazione ufficiale, e non è nemmeno la trascrizione di una conversazione con un modello. È un testo scritto con un criterio preciso:
 
 1. **Ogni dato tecnico è stato verificato sulla fonte primaria**, con la data della verifica accanto. Le versioni dei plugin vengono dal repository ufficiale WordPress.org, le funzionalità di AI Engine dalla sua documentazione e dal suo codice pubblico, i prezzi dei modelli dall'API di OpenRouter.
 2. **Le cifre del caso di studio sono misure reali**, prese dal vivo sul sito `umanesimodigitale.info` il 7 novembre 2026 attraverso il collegamento MCP attivo. Non sono stime.
@@ -58,7 +58,7 @@ Il motivo di questa insistenza è che l'argomento si presta a un errore tipico: 
 1. Metodo: che cosa ho guardato, e come
 2. La fotografia dell'installazione
 3. Il canale MCP, come è fatto davvero
-4. Perché l'OAuth non ha funzionato (e la lezione)
+4. L'OAuth: perché non funzionava, e la lezione
 5. L'inventario di ciò che l'agente sa fare oggi
 6. Lo stato dei contenuti: le 541 bozze
 7. La sovrapposizione: due chatbot sullo stesso sito
@@ -79,7 +79,7 @@ Il motivo di questa insistenza è che l'argomento si presta a un errore tipico: 
 
 ### Parte VI — MCP in pratica: i due MCP di AI Engine, e che cosa posso farci
 1. Perché un capitolo su MCP
-2. I due MCP: server e client (la tabella che li distingue)
+2. I due MCP: server e client — e i tre pezzi di una vetrina: le mani, il ponte, la conoscenza
 3. Il nostro server MCP, com'è fatto
 4. Che cosa ci posso fare: sei mestieri, tradotti dal sito reale
 5. Perché un agente dovrebbe (o non dovrebbe) toccare le impostazioni — i Tool Set, uno per uno
@@ -95,10 +95,10 @@ Il motivo di questa insistenza è che l'argomento si presta a un errore tipico: 
 6. WPBot e AI Engine: il confronto — perché AI Engine interagisce più completamente con il sito
 
 ### Appendice A — Scheda di configurazione di AI Engine
-A. Che cosa è accertato dall'esterno · B. Le quattordici voci da verificare in bacheca · C. Il must «OpenRouter + DeepSeek flash» tradotto in configurazione, con i costi reali · D. Che cosa manca, in sintesi
+A. Che cosa è accertato dall'esterno · B. Le sedici voci da verificare in bacheca · C. Il must «OpenRouter + DeepSeek flash» tradotto in configurazione, con i costi reali · D. Che cosa manca, in sintesi
 
 ### Appendice B — Tour delle schermate di AI Engine
-Le schermate reali dell'installazione, spiegate una per una: il Playground (la sala prove) e il Content Studio (la scrivania), con le voci da controllare
+Le schermate reali dell'installazione, spiegate una per una: il **Playground** (la sala prova), il **Content Studio** (la scrivania) e **Knowledge** (la memoria del sito), con le domande frequenti e la procedura per spostare la memoria su WordPress
 
 ### Appendice C — Procedura: portare gli embedding nel database di WordPress
 Runbook in 10 fasi (0–9) con durate, punti di controllo, rimedi agli errori e checklist finale
@@ -800,7 +800,7 @@ Zero. Il canale è aperto, autenticato, funzionante — e **mai usato per scrive
 
 **Che cosa manca, e che cosa significa.** La documentazione dichiara **66 strumenti** nella versione gratuita e **oltre 100** con la Pro. Qui ne risultano **54**. La differenza si spiega con i **MCP Tool Sets** — i gruppi di strumenti che si scelgono nella scheda MCP — e con i set legati ai plugin: in questo elenco, per esempio, **non ci sono strumenti per utenti, plugin, temi, database o opzioni**. È una buona notizia dal punto di vista della sicurezza, ma è un fatto da *decidere*, non da subire: quei set sono spenti, e vale la pena chiedersi se lo sono per scelta o per omissione.
 
-## 4. Perché l'OAuth non ha funzionato (e la lezione)
+## 4. L'OAuth: perché non funzionava, e la lezione
 
 La strada normale per collegare un agente a un sito è OAuth: l'agente apre una pagina di autorizzazione sul sito, tu scegli l'accesso e approvi. In questa installazione, quella strada **non ha funzionato**, e il motivo è istruttivo.
 
@@ -1202,6 +1202,26 @@ Il primo è quello che sta funzionando sul sito di questo libro. Il secondo è u
 
 **La relazione tra i due, in una frase**: il *server* mette il sito a disposizione degli agenti; il *client* mette gli agenti a disposizione del sito. Sono la stessa medaglia vista dai due lati — e **nessuno dei due sostituisce le funzioni** interne, che restano la via più semplice e veloce per far fare qualcosa allo stesso sito (§6).
 
+### Le mani, il ponte, la conoscenza: i tre pezzi di una vetrina
+
+Meow Apps — lo stesso autore di AI Engine — racconta la propria architettura su una pagina divulgativa (`vibewithwp.ai`) con una metafora azzeccata: **tu dici, il tuo AI è il cervello, AI Engine sono le mani, il tuo sito è WordPress**. Vale la pena tradurre quella vetrina nel vocabolario di questo libro, perché il lettore la incontrerà di sicuro e perché i suoi tre pezzi **non fanno la stessa cosa**.
+
+| Pezzo della vetrina | Il ruolo | Nel vocabolario di questo libro |
+|---|---|---|
+| **AI Engine** | *le mani*: esegue con i tuoi permessi WordPress | il **server MCP** del sito (§2) |
+| **Connect WP** (`connectwp.ai/mcp`) | *il ponte*: passa le richieste dal tuo AI al sito. «Firma l'accesso, passa ogni richiesta, non conserva nulla»; e se non hai AI Engine, lo installa durante il collegamento | la via **indiretta**, alternativa al collegamento diretto (Parte III §7) |
+| **Today WP** (`todaywp.com/mcp`) | *la conoscenza*: versioni, vulnerabilità (Wordfence, Patchstack, WPScan), notizie e documentazione, sincronizzate da fonti ufficiali | un **MCP esterno in sola lettura**, che non tocca il sito |
+
+Il punto architetturale è illustrato bene dalla pagina di Today WP: **le connessioni sono due, e sono separate.** L'agente lavora sul tuo sito *attraverso il connettore del sito*; chiede conoscenza a Today WP *attraverso un'altra porta*. Today WP **legge e basta**: non entra nel tuo WordPress. E la ragione per cui esiste è concreta — un modello addestrato mesi fa non sa quale plugin è sicuro **oggi** — con un guadagno dichiarato e misurabile in **meno chiamate e meno token**, e ogni fatto datato al giorno.
+
+Tre precisazioni che una vetrina non fa, e che qui servono.
+
+**Il ponte è un passaggio in più, su un server che non è il tuo.** Connect WP dichiara di non conservare né la password né il contenuto delle richieste, e l'accesso si revoca dal proprio WordPress: sono garanzie ragionevoli, ma la connessione diretta (§3) resta preferibile quando si può configurare, perché il traffico non esce dal perimetro.
+
+**«Tutto gratis» va letto con precisione.** Sono gratuiti il plugin e il server MCP — esattamente ciò che questa parte descrive. Chatbot, scrittura assistita, Knowledge, set di strumenti Pro e registrazione delle chiamate si pagano altrove: al provider dei modelli (Parte III §3) o con la licenza Pro (§6).
+
+**La vetrina racconta la capacità, non il governo.** Di *Drafts Only*, *Access Level*, *Ask Before*, cronologia annullabile e Tool Set non parla. È la parte che questo libro aggiunge — e non è un dettaglio da addetti ai lavori: è ciò che distingue un agente a cui si affida un sito da un agente con cui si scherza una sera.
+
 ## 3. Il nostro server MCP, com'è fatto
 
 Ricapitolando le misure della Parte IV, con le aggiunte di questa:
@@ -1495,7 +1515,7 @@ L'unico errore da evitare, avendoli entrambi: **accendere due chatbot verso lo s
 
 ---
 
-*Con questo capitolo la parte tecnica è completa: sei mondi — la teoria del collegamento, gli strumenti, AI Engine, il caso di studio, i nomi che si confondono, l'MCP in pratica — più i due protagonisti messi a confronto. Le appendici che seguono sono la cassetta degli attrezzi.*
+*Con questo capitolo la parte tecnica è completa: sette parti — la teoria del collegamento, gli strumenti, AI Engine, il caso di studio, i nomi che si confondono, l'MCP in pratica, WPBot — più i due protagonisti messi a confronto. Le appendici che seguono sono la cassetta degli attrezzi.*
 
 
 ---
@@ -1774,7 +1794,7 @@ Allora la domanda giusta non è «come la riparo», ma **«per chi la riparo»**
 
 ---
 
-*(Le prossime schermate si aggiungono qui sotto, in ordine, man mano che vengono raccolte.)*
+*Le altre schermate dell'installazione — Workspace, Insights, MCP, Chatbots — si aggiungono qui con la stessa forma: che cosa si vede, a che cosa serve, che cosa va segnalato.*
 
 
 ---
@@ -2070,3 +2090,15 @@ Il capitolo non cita come fonte articoli divulgativi, elenchi di plugin, né con
 **Meow Apps** (`meowapps.com`) — presentazione della casa produttrice («l'azienda AI per WordPress», oltre 350.000 siti) e la famiglia di plugin: AI Engine, SEO Engine, Code Engine, Media Cleaner, Database Cleaner, Media File Renamer, Perfect Images, Social Engine, Meow Lightbox, Photo Engine. Pagina dei download (`meowapps.com/products/`) per l'elenco degli **add-on**: User Memory, DeepSeek, Content Parser, Visitor Form, Woo Basics, Quick Actions, Dynamic Keys, Web Search.
 
 **Misure sul sito del caso di studio, 7 novembre 2026, ore 14:40–15:00 CET** — conteggio delle rotte REST per namespace, letto da `/wp-json/`: `mwai/v1` 122 rotte, `mwai-ui/v1` 14, `mwai-visitor-form/v1` 8, `meow-licenser/mwaiweb/v1` 3, `wpbot/v1` 4, `qcwpbot/v1` **75** (di cui 73 sotto `/email/…` e 1 `leadfinder/settings`), `mcp` + `mcp/v1` 27. Registrazione OAuth riverificata sull'endpoint `/wp-json/mcp/v1/oauth/register`.
+
+---
+
+## Fonti aggiunte per la Parte VI
+
+**`vibewithwp.ai`** — pagina divulgativa di Meow Apps che racconta l'architettura complessiva («tu dici → il tuo AI è il cervello → AI Engine sono le mani → il tuo sito è WordPress»), e la sequenza in due passi: collegare l'AI, poi aggiungere la conoscenza. Da qui i nomi e i ruoli dei tre pezzi.
+
+**`connectwp.ai`** — la pagina del ponte: indirizzo `https://connectwp.ai/mcp`, procedura per ChatGPT (serve un piano a pagamento per i server MCP personalizzati), per Claude (dal *directory*) e per gli agenti da terminale (Claude Code, Codex, Cursor). Da qui le dichiarazioni verificate nel testo: nessuna password conservata, nessuna registrazione del contenuto delle richieste, accesso revocabile dal proprio WordPress, e **installazione di AI Engine durante il collegamento** se il plugin non c'è.
+
+**`todaywp.com`** — la pagina della conoscenza: indirizzo `https://todaywp.com/mcp`, le fonti sincronizzate (WordPress.org, PHP.net, documentazione, page builder, plugin, Wordfence/Patchstack/WPScan, notizie), la dichiarazione che **non tocca il sito** (l'agente ha due connessioni separate), e il confronto misurato «con / senza» in numero di chiamate e token. Esiste anche una *skill* opzionale per l'agente (`todaywp.com/skill.md`).
+
+*Tutte le pagine consultate il 7 novembre 2026.*

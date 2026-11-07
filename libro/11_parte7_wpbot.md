@@ -171,4 +171,4 @@ L'unico errore da evitare, avendoli entrambi: **accendere due chatbot verso lo s
 
 ---
 
-*Con questo capitolo la parte tecnica è completa: sei mondi — la teoria del collegamento, gli strumenti, AI Engine, il caso di studio, i nomi che si confondono, l'MCP in pratica — più i due protagonisti messi a confronto. Le appendici che seguono sono la cassetta degli attrezzi.*
+*Con questo capitolo la parte tecnica è completa: sette parti — la teoria del collegamento, gli strumenti, AI Engine, il caso di studio, i nomi che si confondono, l'MCP in pratica, WPBot — più i due protagonisti messi a confronto. Le appendici che seguono sono la cassetta degli attrezzi.*

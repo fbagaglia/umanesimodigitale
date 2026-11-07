@@ -21,15 +21,21 @@ Capitolo/libro su come un'AI si collega a un sito WordPress: la teoria del colle
 | `10_appendice_*` | Appendice C — Procedura: portare gli embedding nel database di WordPress |
 | `05_fonti.md` | Fonti, con la data di verifica di ogni dato |
 
-I prefissi numerici indicano l'ordine di **creazione**, non di lettura: l'ordine di lettura è quello di `build.py`.
+I prefissi numerici indicano l'ordine di **creazione**, non di lettura: l'ordine di lettura è quello della lista `ORDINE` in `build.py` e in `costruisci_pdf.py`.
 
-## Ricostruire il file completo
+## Come si produce il volume
 
 ```bash
-python build.py
+python build.py           # manoscritto unico: libro-completo-ai-wordpress.md
+py -3.14 costruisci_pdf.py   # impaginato A4 con copertina, testatine, segnalibri
+py -3.14 verifica_pdf.py     # controlla il PDF PRODOTTO (non il resoconto della costruzione)
 ```
 
-Genera `libro-completo-ai-wordpress.md` (tutti i capitoli in ordine di lettura). Solo libreria standard, nessuna dipendenza.
+`build.py` usa solo la libreria standard. Il PDF richiede **reportlab** (per impaginare) e **PyMuPDF** (per l'indice navigabile e la verifica), disponibili nell'interprete `py -3.14`.
+
+### Che cosa controlla `verifica_pdf.py`
+
+Il PDF si legge, non si deduce: lo script estrae il testo e verifica che non siano rimasti **marcatori markdown in pagina** (barre verticali = tabelle non rese, doppi asterischi = grassetti non resi, triple virgolette = blocchi di codice non resi), che le **frasi chiave** di ogni parte siano presenti, che l'**indice navigabile** abbia 12 capitoli di primo livello con pagine crescenti, e che il volume si chiuda con le **Fonti**. Esce con 0 se è tutto verde, 1 se qualcosa è rosso.
 
 ## Metodo
 

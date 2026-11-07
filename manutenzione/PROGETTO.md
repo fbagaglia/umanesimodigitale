@@ -190,7 +190,7 @@ poi commit e push su `fbagaglia/umanesimodigitale`, **verificando dal remoto** (
 |---|---|
 | Lavoro locale | `C:\Users\ASUS\Desktop\Test\umanesimodogitale\` |
 | **Questo documento** | `fbagaglia/umanesimodigitale` → cartella **`manutenzione/`** (`manutenzione/PROGETTO.md`) |
-| **La skill di scrittura dell'articolo** | `scrittura-con-stile-umano` — invocazione: *«usa la skill scrittura-con-stile-umano»*. Contiene la voce dell'autore, i tre ingressi (testo, link, tema) e il ciclo operativo. **La forma dell'articolo non sta lì**: sta in `manutenzione/MODELLO-ARTICOLO.md` |
+| **La skill di scrittura dell'articolo** | `scrittura-con-stile-umano`. **Si invoca in due modi, entrambi validi sempre**: da sola (la descrizione è il grilletto — basta una richiesta con uno dei tre ingressi: *«trasforma questo testo in un articolo»*, *«parti da questo link»*, *«scrivi un articolo su…»*) oppure per nome: *«usa la skill scrittura-con-stile-umano»*. **La forma dell'articolo non sta lì**: sta in `manutenzione/MODELLO-ARTICOLO.md` |
 | Manoscritto e impaginato | `libro/` — 12 file sorgente + PDF + i tre script |
 | Repository | `fbagaglia/umanesimodigitale` (pubblico) |
 | Canale verso il sito | server MCP `umanesimo`, token in ambiente, **Drafts Only** |

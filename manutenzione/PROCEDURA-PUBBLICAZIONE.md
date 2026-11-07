@@ -59,6 +59,10 @@ L'agente **prepara il testo della didascalia** (vedi §6), ma l'inserimento del 
 - Perché: evitare il **404**, l'uscita da feed e sitemap, i commenti che spariscono, la cache che conserva il 404, la ripartenza automatica delle automazioni (WP Telegram Pro, Feedzy).
 - Le operazioni fatte via MCP restano **annullabili per 30 giorni** — ma la cronologia **non** copre query SQL, file di plugin e temi, cancellazioni e nuovi utenti.
 
+> **Un solo scrittore alla volta.** Se l'articolo è aperto nell'editor di WordPress mentre l'agente lavora via MCP, **vince la copia dell'editor**: basta un salvataggio — o un incolla di markup vecchio — e le modifiche dell'agente spariscono senza un errore da nessuna parte. Prima di toccare un articolo nell'editor, **ricaricare la pagina**; l'agente, prima di ogni modifica, rilegge i blocchi e scrive con il **confronto d'impronta** (`if_hash`).
+>
+> **La verifica si fa sui blocchi, non sull'anteprima.** La pagina di anteprima può essere servita dalla **cache** (WP-Optimize) e mostrare una versione vecchia: lo stato vero si legge con **`wp_get_blocks`**. Solo dopo si guarda la resa HTML — e se le due cose si contraddicono, prima si svuota la cache e poi si conclude.
+
 ---
 
 ## 5. I freni accesi (da non spegnere)

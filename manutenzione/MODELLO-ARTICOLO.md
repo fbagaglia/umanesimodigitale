@@ -87,9 +87,9 @@ Titolo di sezione (**«Approfondimenti»**) e poi una card per link:
 <a href="URL" target="_blank" rel="noopener"
    style="display:block;text-decoration:none;background:#D9E1DA;border:1px solid #5B5F5C;
           border-left:4px solid #379557;border-radius:10px;padding:14px 16px;margin:0 0 12px 0;">
-  <span style="display:block;height:150px;background:#5B5F5C;
+  <span style="display:block;width:100%;max-width:420px;height:150px;background:#5B5F5C;
                background-image:url(IMMAGINE_ANTEPRIMA);background-size:cover;
-               background-position:center;border-radius:6px;margin-bottom:10px;"></span>
+               background-position:center;border-radius:6px;margin:0 auto 10px auto;"></span>
   <span style="display:block;color:#0C0D0D;font-weight:600;font-size:1rem;line-height:1.35;">Titolo della pagina</span>
   <span style="display:block;color:#818484;font-size:0.85rem;margin-top:4px;">dominio.it</span>
 </a>
@@ -161,6 +161,7 @@ Come il podcast, ma YouTube e proporzione **16:9**.
 | Che cosa cambia | Perché |
 |---|---|
 | Il contenitore delle card (§3.4) è **centrato** nella colonna: `max-width:760px; margin:0 auto` | richiesta dell'utente: il gruppo dei link correlati stava a filo sinistro |
+| Anche la **miniatura** dentro ogni card è centrata: `width:100%; max-width:420px; margin:0 auto 10px auto` | richiesta dell'utente: la miniatura occupava tutta la larghezza della card |
 | Il testo *dentro* le card resta a **sinistra** | centrare anche i titoli delle card li renderebbe più faticosi da leggere |
 
 Applicato all'articolo **37503** (bozza) e qui al modello, perché è una modifica di **forma**: vale anche per gli articoli futuri.

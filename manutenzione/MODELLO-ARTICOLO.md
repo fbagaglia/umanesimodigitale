@@ -95,7 +95,7 @@ Titolo di sezione (**«Approfondimenti»**) e poi una card per link:
 </a>
 ```
 
-Tutte le card vanno dentro un contenitore `<div style="font-family:inherit;max-width:760px;">`. La **miniatura** è un'immagine di sfondo: se il sito di destinazione cambia o toglie l'immagine, la card resta con il fondo grigio — è il modo giusto di degradare, ma va **controllata** prima di consegnare.
+Tutte le card vanno dentro un contenitore `<div style="font-family:inherit;max-width:760px;margin:0 auto;">`, **centrato** nella colonna. Il gruppo dei link sta al centro; il testo *dentro* le card resta a sinistra, perché si legge meglio. La **miniatura** è un'immagine di sfondo: se il sito di destinazione cambia o toglie l'immagine, la card resta con il fondo grigio — è il modo giusto di degradare, ma va **controllata** prima di consegnare.
 
 ### 3.5 Video (parte 8, facoltativo)
 
@@ -155,6 +155,15 @@ Come il podcast, ma YouTube e proporzione **16:9**.
 | L'agente prepara il **testo della didascalia** dell'episodio | così l'utente, appena pubblicato, ha già tutto pronto |
 
 **Procedura completa, con i ruoli e le nove fasi:** `manutenzione/PROCEDURA-PUBBLICAZIONE.md`.
+
+### 7 novembre 2026 — il gruppo dei link è **centrato**
+
+| Che cosa cambia | Perché |
+|---|---|
+| Il contenitore delle card (§3.4) è **centrato** nella colonna: `max-width:760px; margin:0 auto` | richiesta dell'utente: il gruppo dei link correlati stava a filo sinistro |
+| Il testo *dentro* le card resta a **sinistra** | centrare anche i titoli delle card li renderebbe più faticosi da leggere |
+
+Applicato all'articolo **37503** (bozza) e qui al modello, perché è una modifica di **forma**: vale anche per gli articoli futuri.
 
 ### 7 novembre 2026 — difetti trovati nell'articolo 37476 (corrente)
 

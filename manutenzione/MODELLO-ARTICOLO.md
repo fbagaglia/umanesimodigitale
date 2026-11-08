@@ -67,35 +67,49 @@ In pratica: si inserisce **l'URL dell'episodio** con il blocco Embed e si impost
 
 **Nota operativa importante**: `uagb/info-box` e `uagb/advanced-heading` sono blocchi **Spectra**, e non sono fra i tipi che lo strumento di impaginazione sa generare (che conosce paragrafi, titoli, liste, citazioni, immagini, pulsanti, gruppi, colonne, separatori, spaziatori, codice, HTML). Questo pezzo si inserisce quindi come **markup**, non come specifica: è la ragione per cui il modello conserva il markup esatto.
 
-### 3.3 FAQ (parte 6)
+### 3.3 FAQ (parte 6) — card eleganti, titoli a scomparsa
 
-Titolo di sezione (`uagb/advanced-heading`, testo **«Domande frequenti»**) e poi, nel blocco HTML, **una riga per domanda**:
+*(riscritta il 7 novembre 2026: prima erano righe nude del browser)*
+
+Titolo di sezione `heading` **h2** con il testo **«Domande frequenti»**; sotto, **un solo blocco `html`** con dentro un `<style>` **scoped** (classi `.ud-faq`) e il `<div class="ud-faq">` con **una card per domanda**:
 
 ```html
 <details><summary>Domanda?</summary><p>Risposta in due o tre frasi, autosufficiente.</p></details>
 ```
 
+Com'è fatta la card: fondo `#D9E1DA`, bordo `#5B5F5C`, **bordo sinistro 4px verde `#379557`**, angoli 10px. Il `<summary>` è in nero `#0C0D0D` con il segno **`+`** verde a destra, che diventa **`−`** all'apertura (`summary::after`, con `summary::marker{content:""}` e `::-webkit-details-marker{display:none}`). La risposta è in `#5B5F5C`; a card aperta una linea `rgba(91,95,92,.35)` separa domanda e risposta.
+
 - `<details>` nativo: si apre e si chiude **senza JavaScript**, e funziona per i lettori con screen reader.
 - Le domande **non** si inventano: o sono realmente frequenti, o non ci sono.
 - Da 3 a 5 per articolo. Ognuna con la risposta completa, senza rimandare ad altre domande.
 
-### 3.4 Approfondimenti (parte 7)
+**Il markup completo (CSS + HTML) sta in `manutenzione/anteprima-faq-e-link.html`** — che serve anche come anteprima da mostrare all'utente *prima* di applicare.
 
-Titolo di sezione (**«Approfondimenti»**) e poi una card per link:
+### 3.4 Approfondimenti (parte 7) — su due colonne
+
+Titolo h2 **«Approfondimenti»** e un blocco `html` con `<style>` scoped (`.ud-links`) più il `<div class="ud-links">` con una `<a>` per link:
 
 ```html
-<a href="URL" target="_blank" rel="noopener"
-   style="display:block;text-decoration:none;background:#D9E1DA;border:1px solid #5B5F5C;
-          border-left:4px solid #379557;border-radius:10px;padding:14px 16px;margin:0 0 12px 0;">
-  <span style="display:block;width:100%;max-width:420px;height:150px;background:#5B5F5C;
-               background-image:url(IMMAGINE_ANTEPRIMA);background-size:cover;
-               background-position:center;border-radius:6px;margin:0 auto 10px auto;"></span>
-  <span style="display:block;color:#0C0D0D;font-weight:600;font-size:1rem;line-height:1.35;">Titolo della pagina</span>
-  <span style="display:block;color:#818484;font-size:0.85rem;margin-top:4px;">dominio.it</span>
+<a href="URL" target="_blank" rel="noopener">
+  <span class="ud-thumb" style="background-image:url(IMMAGINE_ANTEPRIMA)"></span>
+  <span class="ud-t">Titolo della pagina</span>
+  <span class="ud-d">dominio.it</span>
 </a>
 ```
 
-Tutte le card vanno dentro un contenitore `<div style="font-family:inherit;max-width:760px;margin:0 auto;">`, **centrato** nella colonna. Il gruppo dei link sta al centro; il testo *dentro* le card resta a sinistra, perché si legge meglio. La **miniatura** è un'immagine di sfondo: se il sito di destinazione cambia o toglie l'immagine, la card resta con il fondo grigio — è il modo giusto di degradare, ma va **controllata** prima di consegnare.
+Le regole della griglia: `display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:860px;margin:0 auto`; sotto i **640 px** diventa **una sola colonna**; la card **dispari in ultima posizione** (`a:last-child:nth-child(odd){grid-column:1/-1}`) occupa la riga intera; la miniatura (`width:100%;max-width:420px;margin:0 auto 10px auto`) è centrata **dentro** la card. **La centratura del gruppo non si aggiusta a mano: la fa la griglia.**
+
+**La palette delle due sezioni — e di ogni blocco HTML — è questa, e nient'altro:**
+
+| Ruolo | Colore |
+|---|---|
+| Testi, titoli | nero `#0C0D0D` |
+| Accento (bordo sinistro, `+`/`−`, gancio) | verde `#379557` |
+| Fondo delle card | bianco `#D9E1DA` |
+| Bordi, fondo di riserva delle miniature | grigio scuro `#5B5F5C` |
+| Testi secondari (risposte, dominio) | grigio chiaro `#818484` |
+
+Dove serve una linea interna, si usa il grigio scuro **in trasparenza** — non un colore nuovo. La **miniatura** è un'immagine di sfondo: se il sito di destinazione cambia o toglie l'immagine, la card resta con il fondo grigio — è il modo giusto di degradare, ma va **controllata** prima di consegnare.
 
 ### 3.5 Video (parte 8, facoltativo)
 
@@ -156,15 +170,19 @@ Come il podcast, ma YouTube e proporzione **16:9**.
 
 **Procedura completa, con i ruoli e le nove fasi:** `manutenzione/PROCEDURA-PUBBLICAZIONE.md`.
 
-### 7 novembre 2026 — il gruppo dei link è **centrato**
+### 7 novembre 2026 — **palette unica**, FAQ a card, link su due colonne
+
+*(l'articolo 37503 è il primo costruito così)*
 
 | Che cosa cambia | Perché |
 |---|---|
-| Il contenitore delle card (§3.4) è **centrato** nella colonna: `max-width:760px; margin:0 auto` | richiesta dell'utente: il gruppo dei link correlati stava a filo sinistro |
-| Anche la **miniatura** dentro ogni card è centrata: `width:100%; max-width:420px; margin:0 auto 10px auto` | richiesta dell'utente: la miniatura occupava tutta la larghezza della card |
-| Il testo *dentro* le card resta a **sinistra** | centrare anche i titoli delle card li renderebbe più faticosi da leggere |
+| **La palette è di cinque colori, e sono gli unici ammessi** nei blocchi HTML (tabella in §3.4: nero `#0C0D0D`, verde `#379557`, bianco `#D9E1DA`, grigio scuro `#5B5F5C`, grigio chiaro `#818484`) | richiesta dell'utente: «devi usare la palette ovunque» |
+| La **FAQ** non è più una fila di `<details>` nudi: è una fila di **card** con `<style>` scoped `.ud-faq`, il segno `+`/`−` verde e la risposta separata da una linea tenue | richiesta dell'utente: «la devi rendere più elegante» |
+| Gli **Approfondimenti** passano da una colonna a una **griglia a due colonne** (una sola sotto i 640 px), con la card dispari finale a riga intera | richiesta dell'utente: «su due colonne, e così si risolve il problema della centratura» |
+| La centratura del gruppo **non si aggiusta più a mano**: la fa la griglia | prima servivano `margin:0 auto` sul contenitore **e** sulla miniatura, uno per uno |
+| Il markup completo (CSS + HTML) vive in `manutenzione/anteprima-faq-e-link.html` | è anche l'anteprima da far vedere all'utente *prima* di applicare |
 
-Applicato all'articolo **37503** (bozza) e qui al modello, perché è una modifica di **forma**: vale anche per gli articoli futuri.
+**Un incidente da ricordare.** Mentre l'agente applicava queste modifiche, l'articolo è stato **riscritto due volte da un'altra sessione** (revisioni con variazioni `+395` / `−395`), riportandolo alla versione precedente: l'agente aveva annunciato un successo che non c'era più. Il confronto d'impronta (`if_hash`) ha poi **rifiutato** la scrittura successiva, la modifica è stata riletta e riapplicata. Le due regole che ne nascono: **un solo scrittore alla volta**, e **rilettura dopo ogni scrittura**, prima di dire che è fatto.
 
 ### 7 novembre 2026 — difetti trovati nell'articolo 37476 (corrente)
 
